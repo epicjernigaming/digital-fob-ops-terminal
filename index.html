@@ -23,10 +23,9 @@
       overflow-x: hidden;
     }
     
-    .neon-red { color: #ff2222; text-shadow: none; }
-    .neon-green { color: #00ff88; text-shadow: none; }
+    .neon-red { color: #ff2222; }
+    .neon-green { color: #00ff88; }
     
-    /* Scanlines, glitch, card styles - kept from your original */
     .scanline::after {
       content: '';
       position: absolute;
@@ -48,8 +47,8 @@
       80% { transform: translate(2px, -2px); }
       100% { transform: translate(0); }
     }
-    .glitch-active { animation: glitch 0.3s linear; filter: hue-rotate(10deg) saturate(1.2); }
-    
+    .glitch-active { animation: glitch 0.3s linear; }
+
     .card {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: 4px solid #222222;
@@ -71,19 +70,20 @@
       mix-blend-mode: screen;
     }
 
-    /* Bottom Discord Banner - matches top nav footprint */
+    /* Bottom Discord Banner */
     #discord-bottom-banner {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: black;
-      border-top: 2px solid #00ff88;
-      padding: 14px 20px;
+      background: #000;
+      border-top: 3px solid #00ff88;
+      padding: 16px 20px;
       z-index: 60;
       display: none;
       align-items: center;
-      box-shadow: 0 -5px 20px rgba(0, 255, 136, 0.4);
+      justify-content: space-between;
+      box-shadow: 0 -8px 25px rgba(0, 255, 136, 0.35);
     }
     #discord-bottom-banner.show {
       display: flex;
@@ -95,51 +95,253 @@
   <!-- Digital Rain -->
   <canvas id="digital-rain"></canvas>
 
-  <!-- Top Nav (unchanged) -->
-  <nav class="bg-black border-b-2 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
+  <!-- Top Nav -->
+  <nav class="bg-black border-b-3 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
     <div class="flex items-center gap-3">
       <i class="fa-solid fa-tower-observation text-4xl neon-red"></i>
       <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
     </div>
-    <div class="text-xl neon-red font-bold">DIGITAL FOB • OPS TERMINAL</div>
-    <div class="flex gap-6 text-sm uppercase">
-      <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
-      <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
-      <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
-      <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
+    <div class="text-xl neon-red font-bold">OPS TERMINAL</div>
+    <div class="flex gap-6 text-sm uppercase tracking-widest">
+      <a onclick="showTab(0)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-home"></i> HOME</a>
+      <a onclick="showTab(1)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-newspaper"></i> NEWS</a>
+      <a onclick="showTab(2)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
+      <a onclick="showTab(3)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
+      <a onclick="showTab(4)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
     </div>
   </nav>
 
-  <!-- Your original tab contents (Home, News, X Feed, Upcoming, Discounts) go here -->
-  <!-- Paste all your original <div id="tab-0"> to <div id="tab-4"> blocks exactly as they were in your file -->
+  <!-- HOME -->
+  <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
+    <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
+      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
+      <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
+      <p class="text-2xl mb-12 text-[#bbbbbb]">Cyberpunk Military Ops Terminal<br>Real-time squad intel.</p>
+      
+      <div class="flex flex-wrap justify-center gap-8">
+        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span>
+        </button>
+        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span>
+        </button>
+        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span>
+        </button>
+        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <!-- BOTTOM DISCORD BANNER - Only on Home -->
+  <!-- NEWS -->
+  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- X FEED -->
+  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LIVE SQUAD FEED</h2>
+      <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
+  </div>
+
+  <!-- UPCOMING -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
+      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
+    </div>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- DISCOUNTS -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
+      <button onclick="refreshDiscounts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
+    </div>
+    <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- Bottom Discord Banner -->
   <div id="discord-bottom-banner">
-    <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-6">
-      <div>
-        <span class="text-xl neon-green">SQUAD COMM ACTIVE</span>
-        <p class="text-base text-[#bbbbbb]">Voice ops, session planning & squad banter.</p>
+    <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-8 px-4">
+      <div class="flex-1">
+        <span class="text-2xl neon-green">SQUAD COMM ACTIVE</span>
+        <p class="text-lg text-[#bbbbbb]">Join voice channels, plan gaming sessions, and squad up.</p>
       </div>
       <a href="https://discord.gg/nvtauRav" 
          target="_blank"
-         class="px-8 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-xl tracking-widest transition-all flex items-center gap-3">
-        <i class="fa-brands fa-discord text-3xl"></i>
+         class="px-10 py-5 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-2xl tracking-widest flex items-center gap-4 transition-all">
+        <i class="fa-brands fa-discord text-4xl"></i>
         JOIN OPS CHANNEL →
       </a>
     </div>
   </div>
 
   <script>
-    // === Paste ALL your original script here (initDigitalRain, glitch, loadNews, loadXPosts, loadUpcoming, loadDiscounts, playSound, etc.) ===
+    // Sound Effects
+    function playSound(id) {
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      }
+    }
 
-    // Updated showTab to control the banner
+    // Digital Rain
+    function initDigitalRain() {
+      const canvas = document.getElementById('digital-rain');
+      const ctx = canvas.getContext('2d');
+      function resize() { 
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight; 
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const chars = '01アイウエオカキクケコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = Array(Math.floor(columns)).fill(1);
+
+      function draw() {
+        ctx.fillStyle = 'rgba(5,5,10,0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff88';
+        ctx.font = `${fontSize}px VT323`;
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      setInterval(draw, 45);
+    }
+
+    // Glitch Effect
+    function triggerGlitch() {
+      document.body.classList.add('glitch-active');
+      setTimeout(() => document.body.classList.remove('glitch-active'), 400);
+    }
+    setInterval(() => { if (Math.random() > 0.6) triggerGlitch(); }, 10000);
+
+    // RSS News
+    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
+    const newsFeeds = [
+      "https://www.pcgamer.com/rss/", "https://www.rockpapershotgun.com/feed",
+      "https://www.ign.com/rss/articles/feed", "https://www.gamespot.com/feeds/news/",
+      "https://www.eurogamer.net/feed", "https://www.polygon.com/rss/index.xml"
+    ];
+
+    async function loadNews() {
+      const container = document.getElementById('news-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading live intel...</div>`;
+      let allItems = [];
+      for (let url of newsFeeds) {
+        try {
+          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
+          const data = await res.json();
+          if (data.items) {
+            allItems = allItems.concat(data.items.slice(0, 6).map(item => ({
+              title: item.title,
+              date: item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'Recent',
+              url: item.link,
+              source: new URL(item.link).hostname.replace('www.', '')
+            })));
+          }
+        } catch(e) {}
+      }
+      container.innerHTML = allItems.map(item => `
+        <a href="${item.url}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#00ff88]">
+          <div class="flex justify-between items-center text-base mb-3">
+            <span class="neon-red">${item.date}</span>
+            <span class="text-yellow-400">${item.source}</span>
+          </div>
+          <h4 class="font-bold leading-tight neon-green">${item.title}</h4>
+        </a>
+      `).join('');
+    }
+    function refreshNews() { playSound('refresh'); loadNews(); }
+
+    // X Feed
+    function loadXPosts() {
+      const container = document.getElementById('x-grid');
+      container.innerHTML = `
+        <a class="twitter-timeline" href="https://twitter.com/Wario64" data-theme="dark" data-height="620">Tweets by @Wario64</a>
+        <a class="twitter-timeline" href="https://twitter.com/PCGamer" data-theme="dark" data-height="620">Tweets by @PCGamer</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"><\/script>
+      `;
+      document.getElementById('x-last-refreshed').innerHTML = `Last refreshed: ${new Date().toLocaleTimeString()}`;
+    }
+    function refreshXPosts() { playSound('refresh'); loadXPosts(); }
+
+    // Steam Upcoming & Discounts
+    const CORS_PROXY = "https://api.allorigins.win/raw?url=";
+    const STEAM_FEATURED_URL = "https://store.steampowered.com/api/featuredcategories/?l=english&cc=US";
+
+    async function loadUpcoming() {
+      const container = document.getElementById('upcoming-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Pulling live Steam data...</div>`;
+      try {
+        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_FEATURED_URL));
+        const data = await res.json();
+        const items = [...(data.coming_soon?.items || []), ...(data.popularwishlist?.items || [])].slice(0, 9);
+        container.innerHTML = items.map(item => `
+          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
+            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-6"><h4 class="font-bold text-lg neon-green">${item.name}</h4><p class="text-sm text-[#cccccc] mt-2">View on Steam →</p></div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam API unavailable</div>`;
+      }
+    }
+    function refreshUpcoming() { playSound('refresh'); loadUpcoming(); }
+
+    async function loadDiscounts() {
+      const container = document.getElementById('discounts-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Pulling live Steam deals...</div>`;
+      try {
+        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_FEATURED_URL));
+        const data = await res.json();
+        const items = [...(data.specials?.items || []), ...(data.top_sellers?.items || [])].slice(0, 9);
+        container.innerHTML = items.map(item => `
+          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
+            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between"><h4 class="font-bold text-lg neon-green">${item.name}</h4>
+              ${item.discount_percent ? `<span class="text-red-400 font-bold">-${item.discount_percent}%</span>` : ''}
+              </div>
+              <p class="text-sm text-[#cccccc] mt-2">View Deal on Steam →</p>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam API unavailable</div>`;
+      }
+    }
+    function refreshDiscounts() { playSound('refresh'); loadDiscounts(); }
+
+    // Tab Control + Discord Banner Logic
     function showTab(n) {
       playSound('click');
+      
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-      document.getElementById('tab-' + n).classList.remove('hidden');
+      const activeTab = document.getElementById('tab-' + n);
+      if (activeTab) activeTab.classList.remove('hidden');
 
-      // Show banner ONLY on Home
+      // Show banner only on Home
       const banner = document.getElementById('discord-bottom-banner');
       if (n === 0) {
         banner.classList.add('show');
@@ -149,27 +351,25 @@
     }
 
     // Initialize
-    initDigitalRain();
-    loadNews();
-    loadXPosts();
-    loadUpcoming();
-    loadDiscounts();
-    showTab(0);
-  </script>
+    window.addEventListener('load', () => {
+      initDigitalRain();
+      loadNews();
+      loadXPosts();
+      loadUpcoming();
+      loadDiscounts();
+      showTab(0);
+    });
 
-  <!-- Sound elements -->
-  <audio id="click" src="https://assets.mixkit.co/sfx/preview/296/296.mp3" preload="auto"></audio>
-  <audio id="refresh" src="https://assets.mixkit.co/sfx/preview/143/143.mp3" preload="auto"></audio>
-
-  <!-- PWA Service Worker Registration -->
-  <script>
+    // PWA Service Worker
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('Digital FOB SW registered'))
-          .catch(err => console.log('SW registration failed', err));
-      });
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('Digital FOB PWA ready'))
+        .catch(err => console.log('Service Worker error:', err));
     }
   </script>
+
+  <!-- Sound Elements -->
+  <audio id="click" src="https://assets.mixkit.co/sfx/preview/296/296.mp3" preload="auto"></audio>
+  <audio id="refresh" src="https://assets.mixkit.co/sfx/preview/143/143.mp3" preload="auto"></audio>
 </body>
 </html>

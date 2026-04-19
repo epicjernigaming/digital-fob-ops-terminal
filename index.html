@@ -16,7 +16,7 @@
     
     body { 
       font-family: 'VT323', monospace; 
-      background: linear-gradient(rgba(5,5,10,0.78), rgba(5,5,10,0.85)), url('background.jpg') center/cover no-repeat fixed;
+      background: linear-gradient(rgba(5,5,10,0.85), rgba(5,5,10,0.9)), url('background.jpg') center/cover no-repeat fixed;
       color: #00ff88;
       font-size: 1.45rem;
       position: relative;
@@ -50,7 +50,6 @@
       border-color: #ff2222;
     }
 
-    /* Hot Right Now Cards */
     .hot-now-card {
       background: rgba(15, 20, 25, 0.95);
       border: 3px solid #00ff88;
@@ -86,11 +85,11 @@
 </head>
 <body class="scanline relative overflow-x-hidden">
 
-  <!-- Digital Rain -->
-  <canvas id="digital-rain" class="fixed inset-0 z-1 pointer-events-none"></canvas>
+  <!-- Digital Rain - Fixed layering -->
+  <canvas id="digital-rain" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
   <!-- Top Nav -->
-  <nav class="terminal-nav p-4 sticky top-0 z-50 bg-black/80 border-b border-[#333]">
+  <nav class="terminal-nav p-4 sticky top-0 z-50 bg-black/90 border-b border-[#333]">
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-4">
         <i class="fa-solid fa-tower-observation text-4xl neon-red"></i>
@@ -150,7 +149,7 @@
     </div>
   </div>
 
-  <!-- ACTIVE OPS (Hot Right Now) -->
+  <!-- ACTIVE OPS -->
   <div id="tab-6" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4">
@@ -194,11 +193,11 @@
 
       const chars = '01アイウエオカキクケコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
       const fontSize = 14;
-      const columns = canvas.width / fontSize;
-      const drops = Array(Math.floor(columns)).fill(1);
+      let columns = canvas.width / fontSize;
+      let drops = Array(Math.floor(columns)).fill(1);
 
       function draw() {
-        ctx.fillStyle = 'rgba(5,5,10,0.05)';
+        ctx.fillStyle = 'rgba(5,5,10,0.08)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#00ff88';
         ctx.font = `${fontSize}px VT323`;

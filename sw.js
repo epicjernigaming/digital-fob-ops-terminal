@@ -17,7 +17,7 @@ const urlsToCache = [
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing Military Cyberpunk v8');
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches.open(v9)
       .then(cache => cache.addAll(urlsToCache))
       .then(() => self.skipWaiting())
   );

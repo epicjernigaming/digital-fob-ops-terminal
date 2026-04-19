@@ -1,9 +1,8 @@
 {
   "name": "DIGITAL FOB • OPS TERMINAL",
-  "short_name": "DIGITAL FOB",
-  "description": "Cyberpunk Military Ops Terminal for the squad — real-time gaming news, X feeds, Steam deals & Discord coordination.",
-  "start_url": "/digital-fob-ops-terminal/",
-  "scope": "/digital-fob-ops-terminal/",
+  "short_name": "Digital FOB",
+  "description": "Cyberpunk Military Operations Terminal for the squad",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#00ff88",
@@ -12,14 +11,12 @@
     {
       "src": "favicon.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "favicon.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }

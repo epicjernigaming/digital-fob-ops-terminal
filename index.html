@@ -50,24 +50,43 @@
       border-color: #ff2222;
       background: rgba(17, 34, 17, 0.95);
     }
-    
+
+    /* Hot Right Now Cards */
     .hot-now-card {
-      transition: all 0.3s ease;
+      background: rgba(15, 20, 25, 0.95);
+      border: 3px solid #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
     }
     .hot-now-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 25px #00ff88;
       border-color: #ff00aa;
+      box-shadow: 0 0 40px rgba(255, 0, 170, 0.6);
+      transform: translateY(-6px);
     }
-    
-    #digital-rain {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.18;
-      mix-blend-mode: screen;
+    .hot-now-card::before {
+      content: '';
+      position: absolute;
+      top: -3px; left: -3px;
+      width: 20px; height: 20px;
+      border-top: 3px solid #ff2222;
+      border-left: 3px solid #ff2222;
+    }
+    .hot-now-card::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; right: -3px;
+      width: 20px; height: 20px;
+      border-bottom: 3px solid #ff00aa;
+      border-right: 3px solid #ff00aa;
+    }
+    .live-dot {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
   </style>
 </head>
@@ -110,10 +129,13 @@
     <div class="terminal-panel mb-12">
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-4xl neon-green flex items-center gap-4">
-          <span class="pulse-dot inline-block w-4 h-4 bg-emerald-400 rounded-full"></span>
+          <span class="inline-block w-4 h-4 bg-emerald-400 rounded-full live-dot"></span>
           HOT RIGHT NOW / ACTIVE OPS
         </h2>
-        <button onclick="loadHotNow()" class="px-6 py-2 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+        <button onclick="loadHotNow()" 
+                class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] hover:text-black text-white rounded-2xl text-sm font-bold transition-all">
+          REFRESH OPS
+        </button>
       </div>
       <div id="hot-now-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
@@ -153,8 +175,8 @@
     </div>
   </div>
 
-  <!-- Other tabs (News, X Feed, Upcoming, Deals, Gallery) remain as before -->
-  <!-- NEWS, X FEED, UPCOMING, DEALS, GALLERY tabs here (kept from previous version) -->
+  <!-- Other tabs remain the same (News, X Feed, Upcoming, Deals, Gallery) -->
+  <!-- Paste your previous tab content here if needed, or keep from last working version -->
 
   <!-- Bottom Discord Banner -->
   <div id="discord-bottom-banner">
@@ -204,53 +226,55 @@
       setInterval(draw, 45);
     }
 
-    // Load Hot Right Now from your repo
+    // Refined Hot Right Now
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
-      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING SQUAD COMMS...</div>`;
 
       try {
-        const res = await fetch('https://epicjernigaming.github.io/digital-fob-ops-terminal/hot-right-now.json');
+        const res = await fetch('https://epicjernigaming.github.io/digital-fob-ops-terminal/hot-right-now.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error("No data");
         const data = await res.json();
 
-        if (!data.games || data.games.length === 0) {
-          throw new Error("No data");
-        }
+        if (!data.games || data.games.length === 0) throw new Error("No games");
 
-        container.innerHTML = data.games.map(game => `
-          <div class="hot-now-card border border-[#333] hover:border-[#00ff88] p-6 rounded-3xl bg-black/70">
-            <div class="flex justify-between items-start">
-              <h4 class="font-bold text-2xl neon-green">${game.name}</h4>
-              <span class="neon-red text-sm">${game.count} operators</span>
+        container.innerHTML = data.games.map((game, index) => `
+          <div class="hot-now-card p-6 rounded-3xl">
+            <div class="flex justify-between items-start mb-4">
+              <span class="bg-red-600 text-black text-xs font-bold px-3 py-1 rounded-full">#${index + 1}</span>
+              ${index === 0 ? `<span class="flex items-center gap-2 text-red-400 text-sm"><span class="live-dot inline-block w-3 h-3 bg-red-500 rounded-full"></span> TRENDING</span>` : ''}
             </div>
-            <p class="text-xs text-gray-400 mt-3">Active in squad comms</p>
+            <h4 class="font-bold text-2xl neon-green mb-4 leading-tight">${game.name}</h4>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-emerald-400">${game.count} operators</span>
+              <span class="text-gray-400 text-xs">Active recently</span>
+            </div>
           </div>
         `).join('');
       } catch (e) {
         container.innerHTML = `
-          <div class="col-span-full text-center py-12 text-red-400">
-            No active ops logged yet.<br>
-            <span class="text-sm text-gray-400">Type "Playing: Game Name" in the Discord channel to appear here.</span>
+          <div class="col-span-full text-center py-16 border border-[#444] rounded-3xl bg-black/60">
+            <p class="text-red-400 text-xl">NO ACTIVE OPS LOGGED</p>
+            <p class="text-gray-400 mt-4 text-base">Squad members should post <span class="neon-green">"Playing: Game Name"</span> in the designated Discord channel.</p>
           </div>`;
       }
     }
-
-    // Keep other functions (loadNews, loadUpcoming, loadDeals, loadGallery, showTab, etc.) from previous version
 
     function showTab(n) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById('tab-' + n).classList.remove('hidden');
 
       const banner = document.getElementById('discord-bottom-banner');
-      if (n === 0) banner.classList.add('show');
-      else banner.classList.remove('show');
-
-      if (n === 0) loadHotNow();   // Auto-refresh Hot Right Now on Home tab
+      if (n === 0) {
+        banner.classList.add('show');
+        loadHotNow();
+      } else {
+        banner.classList.remove('show');
+      }
     }
 
     window.addEventListener('load', () => {
       initDigitalRain();
-      loadGallery();   // your existing gallery
       showTab(0);
     });
   </script>

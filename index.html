@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DIGITAL FOB • OPS TERMINAL</title>
   
-  <!-- Red tower favicon only -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 100 100'%3E%3Crect x='38' y='20' width='24' height='60' rx='4' fill='%23c94f4f'/%3E%3Cpath d='M20 80 L80 80' stroke='%23c94f4f' stroke-width='12'/%3E%3Ccircle cx='50' cy='28' r='8' fill='%23c94f4f'/%3E%3C/svg%3E" type="image/svg+xml">
+  <!-- Full red tower favicon (no cutoff) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 100 120'%3E%3Crect x='35' y='15' width='30' height='75' rx='4' fill='%23c94f4f'/%3E%3Cpath d='M15 105 L85 105' stroke='%23c94f4f' stroke-width='14' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='25' r='10' fill='%23c94f4f'/%3E%3C/svg%3E" type="image/svg+xml">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -48,6 +48,7 @@
       <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-video"></i> VIDEOS</a>
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-x-twitter"></i> X POSTS</a>
       <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-link"></i> SOURCES</a>
+      <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING GAMES</a>
     </div>
   </nav>
 
@@ -57,11 +58,12 @@
       <i class="fa-solid fa-tower-observation text-9xl mb-8 alert-red"></i>
       <h2 class="text-6xl mb-6 tactical-green">THE DIGITAL FOB</h2>
       <p class="text-2xl mb-12 text-[#d1d5db]">Military • Simulation • RPG • Sports Sim Hangout<br>Real-time ops intel for the squad.</p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-md mx-auto">
-        <button onclick="showTab(1)" class="py-6 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-lg">NEWS</button>
-        <button onclick="showTab(2)" class="py-6 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-lg">VIDEOS</button>
-        <button onclick="showTab(3)" class="py-6 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-lg">X POSTS</button>
-        <button onclick="showTab(4)" class="py-6 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-lg">SOURCES</button>
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-lg mx-auto">
+        <button onclick="showTab(1)" class="py-5 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-base">NEWS</button>
+        <button onclick="showTab(2)" class="py-5 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-base">VIDEOS</button>
+        <button onclick="showTab(3)" class="py-5 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-base">X POSTS</button>
+        <button onclick="showTab(4)" class="py-5 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-base">SOURCES</button>
+        <button onclick="showTab(5)" class="py-5 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl text-base">UPCOMING</button>
       </div>
     </div>
   </div>
@@ -147,6 +149,15 @@
     </div>
   </div>
 
+  <!-- UPCOMING GAMES (blank for now) -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING GAMES</h2>
+    <div class="text-center py-20 text-[#d1d5db]">
+      <p class="text-xl">Upcoming games section is empty for now.</p>
+      <p class="text-sm mt-4">Ask me to add titles when you're ready.</p>
+    </div>
+  </div>
+
   <script>
     function showTab(n) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
@@ -155,22 +166,25 @@
 
     const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
 
+    // Expanded RSS feeds for broader coverage
+    const feeds = [
+      "https://arma3.com/feed",
+      "https://reforger.armaplatform.com/feed",
+      "https://www.grayzonewarfare.com/feed",
+      "https://www.stalker2.com/news/feed",
+      "https://www.rockpapershotgun.com/feed",
+      "https://www.pcgamer.com/rss/",
+      "https://www.ign.com/rss/articles/feed",
+      "https://www.gamespot.com/feeds/news/",
+      "https://bethesda.net/feed",
+      "https://mountandblade.com/feed",
+      "https://www.eurogamer.net/feed",
+      "https://kotaku.com/feed"
+    ];
+
     async function loadNews() {
       const container = document.getElementById('news-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 tactical-green">Loading live news...</div>`;
-
-      const feeds = [
-        "https://arma3.com/feed",
-        "https://reforger.armaplatform.com/feed",
-        "https://www.grayzonewarfare.com/feed",
-        "https://www.stalker2.com/news/feed",
-        "https://www.rockpapershotgun.com/feed",
-        "https://www.pcgamer.com/rss/",
-        "https://www.ign.com/rss/articles/feed",
-        "https://www.gamespot.com/feeds/news/",
-        "https://bethesda.net/feed",
-        "https://mountandblade.com/feed"
-      ];
 
       let allItems = [];
 
@@ -182,7 +196,7 @@
             allItems = allItems.concat(data.items.slice(0, 8).map(item => ({
               title: item.title,
               date: item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'Recent',
-              source: url.includes('arma') ? 'Bohemia' : url.includes('grayzone') ? 'MADFINGER' : url.includes('stalker') ? 'GSC' : 'Gaming',
+              source: url.includes('arma') ? 'Bohemia' : url.includes('grayzone') ? 'MADFINGER' : url.includes('stalker') ? 'GSC' : url.includes('pcgamer') ? 'PC Gamer' : url.includes('ign') ? 'IGN' : 'Gaming',
               url: item.link
             })));
           }
@@ -230,7 +244,9 @@
       {user:"BohemiaInteractive", text:"Arma Reforger 1.2 is live with new Soviet assets!", url:"https://twitter.com/BohemiaInteractive"},
       {user:"MADFINGER", text:"Gray Zone Warfare Patch 0.4.1 is now available", url:"https://twitter.com/MADFINGER"},
       {user:"GSCGameWorld", text:"STALKER 2 Sealed Truth update is out", url:"https://twitter.com/GSCGameWorld"},
-      {user:"WarhorseStudios", text:"Kingdom Come Deliverance II next-gen update live", url:"https://twitter.com/WarhorseStudios"}
+      {user:"WarhorseStudios", text:"Kingdom Come Deliverance II next-gen update live", url:"https://twitter.com/WarhorseStudios"},
+      {user:"TaleWorlds", text:"Bannerlord 1.3.0 is now available", url:"https://twitter.com/TaleWorlds"},
+      {user:"SaberInteractive", text:"SnowRunner Season 14 is live", url:"https://twitter.com/SaberInteractive"}
     ];
 
     function loadXPosts() {
@@ -245,7 +261,6 @@
       `).join('');
     }
 
-    // Initialize
     loadNews();
     loadVideos();
     loadXPosts();

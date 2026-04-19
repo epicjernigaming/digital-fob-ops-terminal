@@ -1,8 +1,8 @@
-const CACHE_NAME = 'digital-fob-v1';
+const CACHE_NAME = 'digital-fob-v3';   // ← changed from v2 or v1 to v3
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
+    caches.open(v3).then(cache => {
       return cache.addAll([
         '/index.html',
         '/favicon.png',

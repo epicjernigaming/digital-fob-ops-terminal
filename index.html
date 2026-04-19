@@ -57,7 +57,7 @@
       100% { background-position: 0 100%; } 
     }
     
-    /* Occasional Glitch Effect */
+    /* Glitch Effect */
     @keyframes glitch {
       0% { transform: translate(0); }
       20% { transform: translate(-2px, 2px); }
@@ -90,17 +90,18 @@
       width: 100%; height: 100%;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.18; /* Very subtle */
+      opacity: 0.18;
       mix-blend-mode: screen;
     }
   </style>
 </head>
 <body class="scanline relative overflow-x-hidden">
 
-  <!-- Digital Rain Canvas (Background Layer) -->
+  <!-- Digital Rain Canvas -->
   <canvas id="digital-rain"></canvas>
 
-  <nav class="bg-black/90 border-b-4 border-[#ff2222] p-4 flex items-center justify-between sticky top-0 z-50 terminal">
+  <!-- Top Banner: Solid Black with Thin Green Outline -->
+  <nav class="bg-black border-b-2 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
     <div class="flex items-center gap-3">
       <i class="fa-solid fa-tower-observation text-4xl neon-red" style="filter: none;"></i>
       <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
@@ -114,7 +115,7 @@
     </div>
   </nav>
 
-  <!-- HOME (Transparent as before) -->
+  <!-- HOME (Transparent menu) -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
     <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red" style="filter: none;"></i>
@@ -138,8 +139,7 @@
     </div>
   </div>
 
-  <!-- NEWS, X POSTS, UPCOMING tabs remain the same as your previous version -->
-
+  <!-- NEWS -->
   <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
@@ -148,6 +148,7 @@
     <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </div>
 
+  <!-- X POSTS -->
   <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LATEST TWEETS FROM SQUAD SOURCES</h2>
@@ -157,6 +158,7 @@
     <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
   </div>
 
+  <!-- UPCOMING GAMES -->
   <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
@@ -166,7 +168,7 @@
   </div>
 
   <script>
-    // Sound Effects (kept from before)
+    // Sound Effects
     function playSound(id) {
       const audio = document.getElementById(id);
       if (audio) {
@@ -175,7 +177,7 @@
       }
     }
 
-    // Digital Rain Canvas
+    // Digital Rain
     function initDigitalRain() {
       const canvas = document.getElementById('digital-rain');
       const ctx = canvas.getContext('2d');
@@ -193,7 +195,7 @@
       const drops = Array(Math.floor(columns)).fill(1);
 
       function draw() {
-        ctx.fillStyle = 'rgba(5,5,10,0.05)'; // Faint trail
+        ctx.fillStyle = 'rgba(5,5,10,0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         ctx.fillStyle = '#00ff88';
@@ -210,25 +212,121 @@
         }
       }
       
-      setInterval(draw, 45); // Slightly slower for subtlety
+      setInterval(draw, 45);
     }
 
-    // Occasional Glitch Effect
+    // Glitch Effect
     function triggerGlitch() {
       document.body.classList.add('glitch-active');
-      setTimeout(() => {
-        document.body.classList.remove('glitch-active');
-      }, 400);
+      setTimeout(() => document.body.classList.remove('glitch-active'), 400);
     }
-    
-    // Random glitch every 8-15 seconds
-    setInterval(() => {
-      if (Math.random() > 0.6) triggerGlitch();
-    }, 10000);
+    setInterval(() => { if (Math.random() > 0.6) triggerGlitch(); }, 10000);
 
-    // Your existing RSS, X Posts, Upcoming functions (unchanged from your last version)
     const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
-    // ... (paste your loadNews, refreshNews, loadXPosts, etc. here - kept identical)
+
+    const newsFeeds = [
+      "https://www.pcgamer.com/rss/",
+      "https://www.rockpapershotgun.com/feed",
+      "https://www.ign.com/rss/articles/feed",
+      "https://www.gamespot.com/feeds/news/",
+      "https://www.eurogamer.net/feed",
+      "https://www.polygon.com/rss/index.xml",
+      "https://kotaku.com/rss",
+      "https://www.gamesradar.com/feed",
+      "https://www.thegamer.com/feed",
+      "https://www.dualshockers.com/feed",
+      "https://wccftech.com/feed/",
+      "https://www.dsogaming.com/feed/",
+      "https://steamcommunity.com/games/steam/news/rss"
+    ];
+
+    async function loadNews() {
+      const container = document.getElementById('news-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading live intel...</div>`;
+
+      let allItems = [];
+      for (let url of newsFeeds) {
+        try {
+          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
+          const data = await res.json();
+          if (data.items) {
+            allItems = allItems.concat(data.items.slice(0, 5).map(item => ({
+              title: item.title,
+              date: item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'Recent',
+              url: item.link,
+              source: new URL(item.link).hostname.replace('www.', '')
+            })));
+          }
+        } catch(e) {}
+      }
+
+      container.innerHTML = allItems.map(item => `
+        <a href="${item.url}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#00ff88]">
+          <div class="flex justify-between items-center text-base mb-3">
+            <span class="neon-red">${item.date}</span>
+            <span class="neon-yellow">${item.source}</span>
+          </div>
+          <h4 class="font-bold leading-tight neon-green">${item.title}</h4>
+        </a>
+      `).join('');
+    }
+
+    function refreshNews() { 
+      playSound('refresh'); 
+      loadNews(); 
+    }
+
+    function loadXPosts() {
+      const container = document.getElementById('x-grid');
+      const recentTweets = [
+        { user: "@Wario64", text: "Pragmata (Steam) is $49.99 on Newegg w/ code EPF4425 #ad", time: "Just now", url: "https://twitter.com/Wario64/status/2045655213005308089" },
+        { user: "@pcgamer", text: "Owlcat reveals two new 40K companions...", time: "2h ago", url: "https://twitter.com/pcgamer/status/2045699876701585483" },
+        { user: "@BohemiaInteractive", text: "Arma Reforger update rolling out soon...", time: "5h ago", url: "#" },
+        { user: "@OperatorDrewski", text: "New milsim session tonight - join the server!", time: "Yesterday", url: "#" }
+      ];
+
+      container.innerHTML = recentTweets.map(tweet => `
+        <a href="${tweet.url}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#00ff88]">
+          <div class="flex justify-between text-base mb-3">
+            <span class="neon-green font-bold">${tweet.user}</span>
+            <span class="neon-red">${tweet.time}</span>
+          </div>
+          <p class="neon-green leading-tight">${tweet.text}</p>
+        </a>
+      `).join('');
+      
+      document.getElementById('x-last-refreshed').innerHTML = `Last refreshed: ${new Date().toLocaleTimeString()}`;
+    }
+
+    function refreshXPosts() { 
+      playSound('refresh'); 
+      loadXPosts(); 
+    }
+
+    function loadUpcoming() {
+      const container = document.getElementById('upcoming-grid');
+      const upcomingGames = [
+        { name: "Kingdom Come: Deliverance II", url: "https://store.steampowered.com/app/1771300/Kingdom_Come_Deliverance_II/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1771300/capsule_616x353.jpg" },
+        { name: "Gray Zone Warfare", url: "https://store.steampowered.com/app/2475740/Gray_Zone_Warfare/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2475740/capsule_616x353.jpg" },
+        { name: "STALKER 2: Heart of Chornobyl", url: "https://store.steampowered.com/app/1643320/STALKER_2_Heart_of_Chornobyl/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1643320/capsule_616x353.jpg" },
+        { name: "Arma Reforger", url: "https://store.steampowered.com/app/1874880/Arma_Reforger/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1874880/capsule_616x353.jpg" }
+      ];
+
+      container.innerHTML = upcomingGames.map(game => `
+        <a href="${game.url}" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
+          <img src="${game.img}" alt="${game.name}" class="w-full h-40 object-cover">
+          <div class="p-6">
+            <h4 class="font-bold text-lg neon-green">${game.name}</h4>
+            <p class="text-sm text-[#cccccc] mt-2">View on Steam Store →</p>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function refreshUpcoming() { 
+      playSound('refresh'); 
+      loadUpcoming(); 
+    }
 
     function showTab(n) {
       playSound('click');
@@ -236,9 +334,12 @@
       document.getElementById('tab-' + n).classList.remove('hidden');
     }
 
-    // Initialize everything
+    // Initialize
     initDigitalRain();
-    // loadNews(); loadXPosts(); loadUpcoming(); showTab(0);  ← add your existing init calls here
+    loadNews();
+    loadXPosts();
+    loadUpcoming();
+    showTab(0);
   </script>
 
   <!-- Sound Elements -->

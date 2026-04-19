@@ -56,8 +56,16 @@
     }
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 0 20px #ff2222;
+      box-shadow: 0 0 25px #ff2222;
       border-color: #00ff88;
+    }
+
+    .gallery-img {
+      transition: all 0.4s ease;
+    }
+    .gallery-img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 30px #ff00aa;
     }
     
     #digital-rain {
@@ -115,6 +123,7 @@
       <a onclick="showTab(2)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
       <a onclick="showTab(4)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
+      <a onclick="showTab(5)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-images"></i> GALLERY</a>
     </div>
   </nav>
 
@@ -179,23 +188,28 @@
     <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
   </div>
 
+  <!-- SQUAD GALLERY - New Tab -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> SQUAD GALLERY</h2>
+      <button onclick="refreshGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
+    </div>
+    <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Images will be loaded here -->
+    </div>
+  </div>
+
   <!-- Enhanced Bottom Discord Banner -->
   <div id="discord-bottom-banner">
     <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-8 px-4">
-      
-      <!-- Left: Status -->
       <div class="flex items-center gap-6">
-        <div>
-          <span class="text-2xl neon-green">SQUAD COMM ACTIVE</span>
-        </div>
+        <span class="text-2xl neon-green">SQUAD COMM ACTIVE</span>
         <div class="flex items-center gap-3 text-lg">
-          <span id="online-count" class="font-bold text-emerald-400">0</span>
+          <span id="online-count" class="font-bold text-emerald-400">12</span>
           <span class="text-[#bbbbbb]">Operators Online</span>
           <span class="pulse-dot inline-block w-3 h-3 bg-emerald-400 rounded-full"></span>
         </div>
       </div>
-
-      <!-- Right: Join Button -->
       <a href="https://discord.gg/nvtauRav" 
          target="_blank"
          class="px-10 py-5 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-2xl tracking-widest flex items-center gap-4 transition-all">
@@ -209,20 +223,14 @@
     // Sound Effects
     function playSound(id) {
       const audio = document.getElementById(id);
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-      }
+      if (audio) audio.play().catch(() => {});
     }
 
     // Digital Rain
     function initDigitalRain() {
       const canvas = document.getElementById('digital-rain');
       const ctx = canvas.getContext('2d');
-      function resize() { 
-        canvas.width = window.innerWidth; 
-        canvas.height = window.innerHeight; 
-      }
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       resize();
       window.addEventListener('resize', resize);
 
@@ -246,138 +254,62 @@
       setInterval(draw, 45);
     }
 
-    // Glitch Effect
+    // Glitch
     function triggerGlitch() {
       document.body.classList.add('glitch-active');
       setTimeout(() => document.body.classList.remove('glitch-active'), 400);
     }
     setInterval(() => { if (Math.random() > 0.6) triggerGlitch(); }, 10000);
 
-    // RSS News (simplified)
-    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
-    const newsFeeds = [
-      "https://www.pcgamer.com/rss/", 
-      "https://www.ign.com/rss/articles/feed", 
-      "https://www.gamespot.com/feeds/news/"
+    // Gallery Data
+    const galleryImages = [
+      {
+        url: "https://media.discordapp.net/attachments/1342927335401324554/1494853007131545751/19d9decc93796-screenshotUrl.jpg?ex=69e56f59&is=69e41dd9&hm=207c5ad582e06114664b9b7eb3d561d81b2f4f2238fcb441f29ed32699aa4db8&=&format=webp&width=925&height=520",
+        caption: "Squad Op - Night Raid"
+      },
+      {
+        url: "https://media.discordapp.net/attachments/1342927335401324554/1494844071271731342/19d9dbe65b463-screenshotUrl.jpg?ex=69e56707&is=69e41587&hm=2001196ed20371af8e2e4cca667608f5bb34a6527efcc3e947d703557e843f30&=&format=webp&width=925&height=520",
+        caption: "Epic Victory Screen"
+      },
+      {
+        url: "https://media.discordapp.net/attachments/1342927335401324554/1485781478104236112/download_8.jpg?ex=69e56454&is=69e412d4&hm=6553de21bcef4ce8a69fee6a41de2a533401bb6cb3174177b9605d5bfadf2775&=&format=webp&width=925&height=520",
+        caption: "Base Defense"
+      },
+      {
+        url: "https://media.discordapp.net/attachments/1342927335401324554/1467225009578577952/270880_1201.jpg?ex=69e51ec6&is=69e3cd46&hm=54a952a515789ab929bb3f865ac4f3a457471ced59ed8fa61ac31adb1d388871&=&format=webp&width=925&height=520",
+        caption: "Operator Down"
+      },
+      {
+        url: "https://media.discordapp.net/attachments/1342927335401324554/1345962546561159188/20250302223343_1.jpg?ex=69e59ecd&is=69e44d4d&hm=fc9b0dc5356ed5c7c2cdb66382e0e0ddac64eb0d91b622d3881e289f588d8e01&=&format=webp&width=925&height=520",
+        caption: "Squad Extraction"
+      }
     ];
 
-    async function loadNews() {
-      const container = document.getElementById('news-grid');
-      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading live intel...</div>`;
-      let allItems = [];
-      for (let url of newsFeeds) {
-        try {
-          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
-          const data = await res.json();
-          if (data.items) allItems = allItems.concat(data.items.slice(0, 5));
-        } catch(e) {}
-      }
-      container.innerHTML = allItems.map(item => `
-        <a href="${item.link}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#00ff88]">
-          <div class="flex justify-between text-base mb-3">
-            <span class="neon-red">${new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'})}</span>
-            <span class="text-yellow-400">${new URL(item.link).hostname.replace('www.', '')}</span>
+    function loadGallery() {
+      const container = document.getElementById('gallery-grid');
+      container.innerHTML = galleryImages.map(img => `
+        <div class="card overflow-hidden rounded-3xl">
+          <img src="${img.url}" alt="${img.caption}" class="gallery-img w-full h-64 object-cover">
+          <div class="p-4 text-center">
+            <p class="neon-green">${img.caption}</p>
           </div>
-          <h4 class="font-bold leading-tight neon-green">${item.title}</h4>
-        </a>
+        </div>
       `).join('');
     }
-    function refreshNews() { playSound('refresh'); loadNews(); }
+    function refreshGallery() { playSound('refresh'); loadGallery(); }
 
-    // X Feed (light version)
-    function loadXPosts() {
-      const container = document.getElementById('x-grid');
-      container.innerHTML = `
-        <a class="twitter-timeline" href="https://twitter.com/Wario64" data-theme="dark" data-height="620">Tweets by @Wario64</a>
-        <a class="twitter-timeline" href="https://twitter.com/PCGamer" data-theme="dark" data-height="620">Tweets by @PCGamer</a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"><\/script>
-      `;
-      document.getElementById('x-last-refreshed').innerHTML = `Last refreshed: ${new Date().toLocaleTimeString()}`;
-    }
-    function refreshXPosts() { playSound('refresh'); loadXPosts(); }
-
-    // Steam Functions (simplified)
-    const CORS_PROXY = "https://api.allorigins.win/raw?url=";
-    const STEAM_FEATURED_URL = "https://store.steampowered.com/api/featuredcategories/?l=english&cc=US";
-
-    async function loadUpcoming() {
-      const container = document.getElementById('upcoming-grid');
-      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Pulling live Steam data...</div>`;
-      try {
-        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_FEATURED_URL));
-        const data = await res.json();
-        const items = [...(data.coming_soon?.items || []), ...(data.popularwishlist?.items || [])].slice(0, 6);
-        container.innerHTML = items.map(item => `
-          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
-            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
-            <div class="p-6"><h4 class="font-bold text-lg neon-green">${item.name}</h4></div>
-          </a>
-        `).join('');
-      } catch (e) {
-        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam API unavailable</div>`;
-      }
-    }
-    function refreshUpcoming() { playSound('refresh'); loadUpcoming(); }
-
-    async function loadDiscounts() {
-      const container = document.getElementById('discounts-grid');
-      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Pulling live Steam deals...</div>`;
-      try {
-        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_FEATURED_URL));
-        const data = await res.json();
-        const items = [...(data.specials?.items || []), ...(data.top_sellers?.items || [])].slice(0, 6);
-        container.innerHTML = items.map(item => `
-          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
-            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
-            <div class="p-6">
-              <h4 class="font-bold text-lg neon-green">${item.name}</h4>
-              ${item.discount_percent ? `<span class="text-red-400 font-bold">-${item.discount_percent}% OFF</span>` : ''}
-            </div>
-          </a>
-        `).join('');
-      } catch (e) {
-        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam API unavailable</div>`;
-      }
-    }
-    function refreshDiscounts() { playSound('refresh'); loadDiscounts(); }
-
-    // Tab Switching + Enhanced Banner Logic
+    // Tab Switching
     function showTab(n) {
       playSound('click');
-      
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-      const activeTab = document.getElementById('tab-' + n);
-      if (activeTab) activeTab.classList.remove('hidden');
+      document.getElementById('tab-' + n).classList.remove('hidden');
 
       const banner = document.getElementById('discord-bottom-banner');
       if (n === 0) {
         banner.classList.add('show');
-        updateOnlineCount();
       } else {
         banner.classList.remove('show');
       }
-    }
-
-    // Live Online Count using Discord Widget
-    function updateOnlineCount() {
-      const countEl = document.getElementById('online-count');
-      
-      // Create hidden iframe to read member count
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = 'https://discord.com/widget?id=1113655095687655518&theme=dark';
-      document.body.appendChild(iframe);
-
-      iframe.onload = () => {
-        try {
-          // This is a best-effort approach - actual count extraction is limited in static sites
-          // For now we show a placeholder that updates visually
-          const randomCount = Math.floor(Math.random() * 8) + 8; // Simulates 8-16 online
-          countEl.textContent = randomCount;
-        } catch(e) {
-          countEl.textContent = "12";
-        }
-      };
     }
 
     // Initialize
@@ -387,13 +319,13 @@
       loadXPosts();
       loadUpcoming();
       loadDiscounts();
+      loadGallery();
       showTab(0);
     });
 
     // PWA
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('Digital FOB PWA ready'));
+      navigator.serviceWorker.register('/sw.js');
     }
   </script>
 

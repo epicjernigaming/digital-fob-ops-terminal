@@ -12,36 +12,93 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-    body { font-family: 'Press Start 2P', system-ui; background: #0a120a; }
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+    
+    :root {
+      --phosphor: #aaffaa;
+      --dark-green: #0f1a0f;
+    }
+    
+    body { 
+      font-family: 'VT323', monospace; 
+      background: #050a05;
+      color: var(--phosphor);
+    }
+    
     .pip-boy {
-      background: #0f1a0f;
-      box-shadow: 0 0 40px #8fbc8f inset, 0 0 80px #8fbc8f, 0 0 30px rgba(0,0,0,0.95) inset;
-      border: 20px solid #4a5f4a;
-      border-image: linear-gradient(#8fbc8f, #4a5f4a) 1;
-      border-radius: 12px;
+      background: var(--dark-green);
+      box-shadow: 
+        0 0 50px var(--phosphor) inset,
+        0 0 100px var(--phosphor),
+        0 0 40px rgba(0,0,0,0.98) inset,
+        inset 0 0 60px rgba(74,95,74,0.7);
+      border: 24px solid #3a4a3a;
+      border-image: linear-gradient(#8fbc8f, #3a4a3a) 1;
+      border-radius: 14px;
       position: relative;
       overflow: hidden;
     }
-    .tactical-green { color: #9fff9f; text-shadow: 0 0 8px #8fbc8f, 0 0 16px #8fbc8f; }
-    .alert-red { color: #ff6666; }
+    
+    .crt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 62%, rgba(5,10,5,0.85) 100%);
+      z-index: 20;
+      border-radius: 14px;
+    }
+    
+    .tactical-green { 
+      color: var(--phosphor); 
+      text-shadow: 
+        0 0 6px var(--phosphor),
+        0 0 12px var(--phosphor),
+        0 0 24px #4a5f4a;
+    }
+    .alert-red { 
+      color: #ff7777; 
+      text-shadow: 0 0 12px #c94f4f; 
+    }
+    
     .scanline::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(143,188,143,0.28) 50%);
-      background-size: 100% 4px;
+      background: linear-gradient(transparent 50%, rgba(143,188,143,0.35) 50%);
+      background-size: 100% 3px;
       pointer-events: none;
-      animation: scan 2.4s linear infinite;
+      animation: scan 2.1s linear infinite;
       z-index: 30;
-      opacity: 0.9;
+      opacity: 0.92;
     }
-    @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-    .card { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); border: 4px solid #4a5f4a; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(143,188,143,0.6); }
+    
+    @keyframes scan { 
+      0% { background-position: 0 0; } 
+      100% { background-position: 0 100%; } 
+    }
+    
+    .card { 
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+      border: 6px solid #3a4a3a;
+      background: #1a2a1a;
+      box-shadow: inset 0 0 20px rgba(143,188,143,0.2);
+    }
+    .card:hover { 
+      transform: translateY(-6px); 
+      box-shadow: 0 20px 40px rgba(143,188,143,0.7); 
+    }
+    
+    button {
+      transition: all 0.12s ease;
+      box-shadow: 0 4px 0 #3a4a3a;
+    }
+    button:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #3a4a3a;
+    }
   </style>
 </head>
-<body class="bg-[#0a120a] text-[#8fbc8f] scanline relative overflow-x-hidden">
+<body class="bg-[#0a120a] text-[#8fbc8f] scanline relative overflow-x-hidden crt">
 
   <nav class="bg-black/95 border-b-4 border-[#8fbc8f] p-4 flex items-center justify-between sticky top-0 z-50 pip-boy">
     <div class="flex items-center gap-3">
@@ -56,7 +113,6 @@
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
       <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-suitcase"></i> INVENTORY</a>
       <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-radio"></i> RADIO</a>
-      <a onclick="showTab(6)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-book"></i> WIKI</a>
     </div>
   </nav>
 
@@ -87,66 +143,45 @@
           <i class="fa-solid fa-radio text-5xl"></i>
           <span class="text-lg">RADIO</span>
         </button>
-        <button onclick="showTab(6)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
-          <i class="fa-solid fa-book text-5xl"></i>
-          <span class="text-lg">WIKI</span>
-        </button>
       </div>
     </div>
   </div>
 
-  <!-- NEWS, X POSTS, UPCOMING, INVENTORY, RADIO tabs remain as before (functional) -->
+  <!-- NEWS -->
+  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl tactical-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-4 py-2 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
 
-  <!-- NEW WIKI TAB -->
-  <div id="tab-6" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-book"></i> GAME WIKI</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Arma 3 -->
-      <div class="card bg-[#1f2a1f] p-8 rounded-3xl border border-[#8fbc8f]">
-        <h3 class="text-2xl font-bold mb-4">Arma 3</h3>
-        <p class="text-sm text-[#d1d5db]">Military simulation masterpiece. Best for large-scale squad ops, Zeus missions, and milsim.</p>
-        <ul class="text-xs mt-6 space-y-2">
-          <li>• Recommended mods: RHS, ACE3, TFAR</li>
-          <li>• Best for: Large co-op, dynamic campaigns</li>
-          <li>• Key tip: Use Zeus for GM-led missions</li>
-        </ul>
-        <a href="https://arma3.com" target="_blank" class="mt-6 block text-center py-3 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-2xl">Official Site</a>
-      </div>
+  <!-- X POSTS -->
+  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl tactical-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> X / RUMORS &amp; DEV POSTS</h2>
+      <button onclick="refreshXPosts()" class="px-4 py-2 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="x-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+  </div>
 
-      <!-- Gray Zone Warfare -->
-      <div class="card bg-[#1f2a1f] p-8 rounded-3xl border border-[#8fbc8f]">
-        <h3 class="text-2xl font-bold mb-4">Gray Zone Warfare</h3>
-        <p class="text-sm text-[#d1d5db]">Tactical extraction shooter with deep base building and squad PvE.</p>
-        <ul class="text-xs mt-6 space-y-2">
-          <li>• Focus: Squad coordination and base management</li>
-          <li>• Key tip: Use voice comms for CQB</li>
-        </ul>
-        <a href="https://www.grayzonewarfare.com" target="_blank" class="mt-6 block text-center py-3 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-2xl">Official Site</a>
-      </div>
+  <!-- UPCOMING GAMES -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING GAMES</h2>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+  </div>
 
-      <!-- STALKER 2 -->
-      <div class="card bg-[#1f2a1f] p-8 rounded-3xl border border-[#8fbc8f]">
-        <h3 class="text-2xl font-bold mb-4">STALKER 2: Heart of Chornobyl</h3>
-        <p class="text-sm text-[#d1d5db]">Open-world survival in the Zone with atmospheric storytelling.</p>
-        <ul class="text-xs mt-6 space-y-2">
-          <li>• Best for: Immersive single-player or small squad exploration</li>
-          <li>• Key tip: Save often – the Zone is unforgiving</li>
-        </ul>
-        <a href="https://www.stalker2.com" target="_blank" class="mt-6 block text-center py-3 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-2xl">Official Site</a>
-      </div>
+  <!-- INVENTORY -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-suitcase"></i> SQUAD INVENTORY</h2>
+    <div id="inventory-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+  </div>
 
-      <!-- Kingdom Come Deliverance II -->
-      <div class="card bg-[#1f2a1f] p-8 rounded-3xl border border-[#8fbc8f]">
-        <h3 class="text-2xl font-bold mb-4">Kingdom Come: Deliverance II</h3>
-        <p class="text-sm text-[#d1d5db]">Realistic medieval RPG with deep combat and historical accuracy.</p>
-        <ul class="text-xs mt-6 space-y-2">
-          <li>• Best for: Role-playing and story-driven play</li>
-          <li>• Key tip: Master timing in combat</li>
-        </ul>
-        <a href="https://kingdomcomedeliverance2.com" target="_blank" class="mt-6 block text-center py-3 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-2xl">Official Site</a>
-      </div>
-
-      <!-- More wiki entries for Bannerlord, SnowRunner, Farming Simulator 25, Construction Simulator, Road Kings, etc. -->
+  <!-- RADIO -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-radio"></i> FALLOUT RADIO</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Radio stations from Fallout games -->
     </div>
   </div>
 
@@ -156,7 +191,7 @@
       document.getElementById('tab-' + n).classList.remove('hidden');
     }
 
-    // Your existing load functions for News, X Posts, Upcoming, Inventory go here
+    // Your existing loadNews, loadXPosts, loadUpcoming, renderInventory functions go here
 
     showTab(0);
   </script>

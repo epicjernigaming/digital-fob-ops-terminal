@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-19T07:29:15.978Z",
-  "totalMentions": 3,
+  "lastUpdated": "2026-04-19T07:29:36.097Z",
+  "totalMentions": 4,
   "games": [
     {
       "name": "Windrose",
@@ -14,6 +14,11 @@
     },
     {
       "name": "Gray zone warfare",
+      "count": 1,
+      "lastMentioned": "recently"
+    },
+    {
+      "name": "Death stranding",
       "count": 1,
       "lastMentioned": "recently"
     }

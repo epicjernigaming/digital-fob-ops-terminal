@@ -1,202 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIGITAL FOB • OPS TERMINAL</title>
-  
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff2222">
+const CACHE_NAME = 'digital-fob-cache-v1';
+const urlsToCache = [
+  '/digital-fob-ops-terminal/',
+  '/digital-fob-ops-terminal/index.html',
+  '/digital-fob-ops-terminal/background.jpg',
+  '/digital-fob-ops-terminal/favicon.png',
+  '/digital-fob-ops-terminal/manifest.json',
+  'https://cdn.tailwindcss.com',
+  'https://fonts.googleapis.com/css2?family=VT323&display=swap',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
+];
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-    
-    body { 
-      font-family: 'VT323', monospace; 
-      background: linear-gradient(rgba(5,5,10,0.78), rgba(5,5,10,0.85)), url('background.jpg') center/cover no-repeat fixed;
-      color: #00ff88;
-      font-size: 1.45rem;
-      position: relative;
-      overflow-x: hidden;
-    }
-    
-    .terminal {
-      background: rgba(15,15,20,0.92);
-      box-shadow: 0 0 35px #ff2222 inset;
-      border: 18px solid #1a1a1a;
-      border-image: linear-gradient(#ff2222, #00ff88) 1;
-      border-radius: 8px;
-      position: relative;
-      overflow: hidden;
-      z-index: 10;
-    }
-    
-    .neon-red { color: #ff2222; text-shadow: none; }
-    .neon-green { color: #00ff88; text-shadow: none; }
-    
-    /* Scanlines */
-    .scanline::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(transparent 50%, rgba(0,255,136,0.12) 50%);
-      background-size: 100% 4px;
-      pointer-events: none;
-      animation: scan 2.5s linear infinite;
-      z-index: 5;
-      opacity: 0.7;
-    }
-    @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-    
-    /* Glitch */
-    @keyframes glitch {
-      0% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(-2px, -2px); }
-      60% { transform: translate(2px, 2px); }
-      80% { transform: translate(2px, -2px); }
-      100% { transform: translate(0); }
-    }
-    .glitch-active { animation: glitch 0.3s linear; filter: hue-rotate(10deg) saturate(1.2); }
-    
-    .card {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 4px solid #222222;
-      background: rgba(20,20,25,0.95);
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 20px #ff2222;
-      border-color: #00ff88;
-    }
-    
-    #digital-rain {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.18;
-      mix-blend-mode: screen;
-    }
+// Install - Cache core files
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Digital FOB: Caching core terminal files');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
 
-    /* Bottom Discord Banner - same footprint as top nav */
-    #discord-bottom-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: black;
-      border-top: 2px solid #00ff88;
-      padding: 16px 20px;
-      z-index: 50;
-      display: none; /* hidden by default */
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      box-shadow: 0 -4px 15px rgba(0, 255, 136, 0.3);
-    }
-    #discord-bottom-banner.show {
-      display: flex;
-    }
-  </style>
-</head>
-<body class="scanline relative overflow-x-hidden">
+// Activate - Clean old caches
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Digital FOB: Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
 
-  <!-- Digital Rain -->
-  <canvas id="digital-rain"></canvas>
-
-  <!-- Top Banner (unchanged) -->
-  <nav class="bg-black border-b-2 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
-    <div class="flex items-center gap-3">
-      <i class="fa-solid fa-tower-observation text-4xl neon-red" style="filter: none;"></i>
-      <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
-    </div>
-    <div class="text-xl neon-red font-bold">DIGITAL FOB • OPS TERMINAL</div>
-    <div class="flex gap-6 text-sm uppercase">
-      <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
-      <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
-      <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
-      <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
-    </div>
-  </nav>
-
-  <!-- HOME -->
-  <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
-    <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
-      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red" style="filter: none;"></i>
-      <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
-      <p class="text-2xl mb-12 text-[#bbbbbb]">Cyberpunk Military Ops Terminal<br>Real-time squad intel.</p>
-      
-      <div class="flex flex-wrap justify-center gap-8">
-        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span>
-        </button>
-        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span>
-        </button>
-        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span>
-        </button>
-        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- NEWS, X FEED, UPCOMING, DISCOUNTS tabs remain exactly as in your original file -->
-  <!-- Paste your original <div id="tab-1"> ... </div> through <div id="tab-4"> ... </div> here -->
-
-  <!-- BOTTOM DISCORD BANNER - Only shows on Home -->
-  <div id="discord-bottom-banner">
-    <div class="flex items-center gap-6 max-w-6xl w-full">
-      <div class="flex-1">
-        <span class="text-xl neon-green">SQUAD COMM ACTIVE</span>
-        <p class="text-base text-[#bbbbbb]">Join voice ops, plan sessions, and squad up with the crew.</p>
-      </div>
-      <a href="https://discord.gg/nvtauRav" 
-         target="_blank"
-         class="px-10 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-2xl tracking-widest transition-all flex items-center gap-3">
-        <i class="fa-brands fa-discord text-3xl"></i>
-        JOIN OPS CHANNEL →
-      </a>
-    </div>
-  </div>
-
-  <script>
-    // === Your original script section (digital rain, glitch, loadNews, loadXPosts, etc.) ===
-    // Keep everything exactly as it was, just update the showTab function below
-
-    function showTab(n) {
-      playSound('click');
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-      document.getElementById('tab-' + n).classList.remove('hidden');
-
-      // Show Discord banner ONLY on Home (tab 0)
-      const banner = document.getElementById('discord-bottom-banner');
-      if (n === 0) {
-        banner.classList.add('show');
-      } else {
-        banner.classList.remove('show');
-      }
-    }
-
-    // Initialize (your original init code)
-    initDigitalRain();
-    loadNews();
-    loadXPosts();
-    loadUpcoming();
-    loadDiscounts();
-    showTab(0);   // starts on Home with banner visible
-  </script>
-
-  <!-- Sound Elements (unchanged) -->
-  <audio id="click" src="https://assets.mixkit.co/sfx/preview/296/296.mp3" preload="auto"></audio>
-  <audio id="refresh" src="https://assets.mixkit.co/sfx/preview/143/143.mp3" preload="auto"></audio>
-</body>
-</html>
+// Fetch - Serve from cache when offline, fallback to network
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Return cached version or fetch from network
+        return response || fetch(event.request);
+      })
+      .catch(() => {
+        // Optional: Return a fallback page if offline and nothing cached
+        if (event.request.mode === 'navigate') {
+          return caches.match('/digital-fob-ops-terminal/index.html');
+        }
+      })
+  );
+});

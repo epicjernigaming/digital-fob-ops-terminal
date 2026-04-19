@@ -43,11 +43,36 @@
       transition: all 0.4s ease;
       border: 4px solid #00ff88;
       background: rgba(26, 26, 26, 0.95);
+      min-height: 140px;
     }
     .big-button:hover {
       transform: translateY(-8px);
       box-shadow: 0 0 40px #00ff88;
       border-color: #ff2222;
+    }
+    
+    .hot-now-card {
+      background: rgba(15, 20, 25, 0.95);
+      border: 3px solid #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .hot-now-card:hover {
+      border-color: #ff00aa;
+      box-shadow: 0 0 40px rgba(255, 0, 170, 0.6);
+      transform: translateY(-4px);
+    }
+    
+    #digital-rain {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+      mix-blend-mode: screen;
     }
   </style>
 </head>
@@ -68,14 +93,11 @@
       </div>
 
       <!-- Centered Tabs -->
-      <div class="flex gap-6 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
+      <div class="flex gap-8 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
         <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-house"></i> HOME</a>
         <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-        <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-comments"></i> SQUAD FEED</a>
-        <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-film"></i> HIGHLIGHTS</a>
-        <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-fire"></i> ACTIVE OPS</a>
-        <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-tags"></i> DEALS</a>
-        <a onclick="showTab(6)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-clipboard-list"></i> MISSION BRIEFS</a>
+        <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-fire"></i> ACTIVE OPS</a>
+        <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-tags"></i> DEALS</a>
       </div>
 
       <!-- Live System Active - Top Right -->
@@ -95,33 +117,17 @@
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-house text-5xl"></i>
-          <span class="text-xl">HOME</span>
-        </button>
         <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-xl">NEWS</span>
         </button>
         <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-comments text-5xl"></i>
-          <span class="text-xl">SQUAD FEED</span>
-        </button>
-        <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-film text-5xl"></i>
-          <span class="text-xl">HIGHLIGHTS</span>
-        </button>
-        <button onclick="showTab(4)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-fire text-5xl"></i>
           <span class="text-xl">ACTIVE OPS</span>
         </button>
-        <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+        <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-tags text-5xl"></i>
           <span class="text-xl">DEALS</span>
-        </button>
-        <button onclick="showTab(6)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-clipboard-list text-5xl"></i>
-          <span class="text-xl">MISSION BRIEFS</span>
         </button>
         <!-- Future Use placeholders -->
         <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg opacity-60">
@@ -131,6 +137,10 @@
         <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg opacity-60">
           <i class="fa-solid fa-question text-5xl"></i>
           <span class="text-xl">FUTURE 2</span>
+        </button>
+        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg opacity-60">
+          <i class="fa-solid fa-question text-5xl"></i>
+          <span class="text-xl">FUTURE 3</span>
         </button>
       </div>
     </div>
@@ -145,26 +155,8 @@
     <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
-  <!-- SQUAD FEED -->
-  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-comments"></i> SQUAD FEED</h2>
-      <button onclick="loadSquadFeed()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-    </div>
-    <div id="squad-feed-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </div>
-
-  <!-- HIGHLIGHTS -->
-  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-film"></i> HIGHLIGHTS</h2>
-      <button onclick="loadHighlights()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-    </div>
-    <div id="highlights-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </div>
-
   <!-- ACTIVE OPS -->
-  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4">
         <span class="pulse-dot inline-block w-4 h-4 bg-emerald-400 rounded-full"></span>
@@ -176,21 +168,12 @@
   </div>
 
   <!-- DEALS -->
-  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
       <button onclick="loadDeals()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
     </div>
     <div id="deals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[70vh] overflow-y-auto pr-2"></div>
-  </div>
-
-  <!-- MISSION BRIEFS -->
-  <div id="tab-6" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-clipboard-list"></i> MISSION BRIEFS</h2>
-      <button onclick="loadMissionBriefs()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-    </div>
-    <div id="mission-briefs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- Bottom Discord Banner -->
@@ -242,10 +225,33 @@
       setInterval(draw, 45);
     }
 
-    // Placeholder functions - ready for bot integration later
-    function loadHotNow() {
+    // Active Ops (from your bot)
+    async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;
+
+      try {
+        const res = await fetch('https://epicjernigaming.github.io/digital-fob-ops-terminal/hot-right-now.json', { cache: 'no-store' });
+        const data = await res.json();
+
+        if (!data.games || data.games.length === 0) throw new Error();
+
+        container.innerHTML = data.games.map((game, index) => `
+          <div class="hot-now-card border border-[#333] hover:border-[#00ff88] p-6 rounded-3xl bg-black/70">
+            <div class="flex justify-between items-start">
+              <h4 class="font-bold text-2xl neon-green">${game.name}</h4>
+              <span class="neon-red text-sm">${game.count} operators</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-3">Active in squad comms</p>
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `
+          <div class="col-span-full text-center py-12 text-red-400">
+            No active ops logged yet.<br>
+            <span class="text-sm text-gray-400">Type "Playing: Game Name" in #playing-now</span>
+          </div>`;
+      }
     }
 
     function showTab(n) {
@@ -255,6 +261,8 @@
       const banner = document.getElementById('discord-bottom-banner');
       if (n === 0) banner.classList.add('show');
       else banner.classList.remove('show');
+
+      if (n === 2) loadHotNow();
     }
 
     window.addEventListener('load', () => {

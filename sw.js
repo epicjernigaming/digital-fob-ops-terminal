@@ -1,5 +1,5 @@
 // sw.js - Service Worker for DIGITAL FOB • OPS TERMINAL (Red/Yellow/Green Military Theme)
-const CACHE_NAME = 'digital-fob-military-v8';   // Bumped version for the new design
+const CACHE_NAME = 'digital-fob-military-v10';   // Bumped version for the new design
 
 const urlsToCache = [
   '/',
@@ -17,7 +17,7 @@ const urlsToCache = [
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing Military Cyberpunk v8');
   event.waitUntil(
-    caches.open(v9)
+    caches.open(v10)
       .then(cache => cache.addAll(urlsToCache))
       .then(() => self.skipWaiting())
   );

@@ -18,7 +18,7 @@
       font-family: 'VT323', monospace; 
       background: #0a120a; 
       color: #99cc99;
-      font-size: 1.2rem; /* Larger fonts */
+      font-size: 1.25rem;
     }
     
     .pip-boy {
@@ -29,6 +29,15 @@
       border-radius: 14px;
       position: relative;
       overflow: hidden;
+    }
+    
+    .crt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 65%, rgba(0,0,0,0.65) 100%);
+      pointer-events: none;
+      z-index: 40;
     }
     
     .tactical-green { 
@@ -51,15 +60,11 @@
     }
     
     @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-    
-    @keyframes phosphor-breath {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.95; }
-    }
+    @keyframes phosphor-breath { 0%, 100% { opacity: 1; } 50% { opacity: 0.94; } }
     
     .card { 
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
-      border: 5px solid #4a5f4a;
+      border: 5px solid #4a5f4a; 
       background: #1a2a1a;
     }
     .card:hover { 
@@ -67,15 +72,15 @@
       box-shadow: 0 15px 30px rgba(143,188,143,0.6); 
     }
     
-    button:active { transform: scale(0.95); }
+    button:active { transform: scale(0.95); transition: transform 0.08s; }
   </style>
 </head>
-<body class="bg-[#0a120a] text-[#99cc99] scanline relative overflow-x-hidden">
+<body class="bg-[#0a120a] text-[#99cc99] scanline relative overflow-x-hidden crt">
 
   <!-- Sound Effects -->
-  <audio id="click" src="https://freesound.org/data/previews/276/276951_5121236-lq.mp3"></audio>
-  <audio id="beep" src="https://freesound.org/data/previews/276/276951_5121236-lq.mp3"></audio>
-  <audio id="refresh" src="https://freesound.org/data/previews/276/276951_5121236-lq.mp3"></audio>
+  <audio id="click" src="https://assets.mixkit.co/sfx/preview/296/296.mp3"></audio>
+  <audio id="beep" src="https://assets.mixkit.co/sfx/preview/296/296.mp3"></audio>
+  <audio id="refresh" src="https://assets.mixkit.co/sfx/preview/143/143.mp3"></audio>
 
   <nav class="bg-black/95 border-b-4 border-[#8fbc8f] p-4 flex items-center justify-between sticky top-0 z-50 pip-boy">
     <div class="flex items-center gap-3">
@@ -86,7 +91,7 @@
     <div class="flex gap-6 text-sm uppercase">
       <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
       <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1">X POSTS</a>
+      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-x-twitter"></i> X POSTS</a>
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
       <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-suitcase"></i> INVENTORY</a>
       <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-radio"></i> RADIO</a>
@@ -143,7 +148,37 @@
     <div id="x-last-refreshed" class="text-xs text-center mt-6 text-[#8fbc8f]/70"></div>
   </div>
 
-  <!-- UPCOMING GAMES, INVENTORY, RADIO (kept from previous) -->
+  <!-- UPCOMING GAMES -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-8 tactical-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING GAMES</h2>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+      <p class="col-span-full tactical-green">Loading live Steam data...</p>
+    </div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-8 tactical-green flex items-center gap-4"><i class="fa-solid fa-suitcase"></i> SQUAD INVENTORY</h2>
+    <div id="inventory-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6"></div>
+    <div class="mt-8 pip-boy p-6 rounded-3xl text-center">
+      <p class="text-lg">Total Weight: <span id="total-weight" class="tactical-green">18.7 / 50 kg</span></p>
+    </div>
+  </div>
+
+  <!-- RADIO -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-8 tactical-green flex items-center gap-4"><i class="fa-solid fa-radio"></i> FALLOUT RADIO</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="card p-6 rounded-3xl">
+        <h4 class="font-bold mb-4">Fallout 3 / New Vegas Soundtrack</h4>
+        <a href="https://open.spotify.com/playlist/37i9dQZF1DX0h3y1Q4Q2pZ" target="_blank" class="block py-4 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-2xl text-center">Open in Spotify</a>
+      </div>
+      <div class="card p-6 rounded-3xl">
+        <h4 class="font-bold mb-4">Fallout 4 Soundtrack</h4>
+        <a href="https://open.spotify.com/playlist/37i9dQZF1DX0h3y1Q4Q2pZ" target="_blank" class="block py-4 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-2xl text-center">Open in Spotify</a>
+      </div>
+    </div>
+  </div>
 
   <script>
     function playSound(id) {
@@ -197,12 +232,12 @@
         } catch(e) {}
       }
 
-      container.innerHTML = allItems.map(item => `
+      container.innerHTML = allItems.length ? allItems.map(item => `
         <a href="${item.url}" target="_blank" class="card block bg-[#1f2a1f] p-5 rounded-3xl border border-[#8fbc8f] hover:border-[#c94f4f]">
-          <div class="flex justify-between text-[10px] alert-red mb-2"><span>${item.date}</span></div>
-          <h4 class="font-bold leading-tight text-sm">${item.title}</h4>
+          <div class="flex justify-between text-xs alert-red mb-2"><span>${item.date}</span></div>
+          <h4 class="font-bold leading-tight">${item.title}</h4>
         </a>
-      `).join('');
+      `).join('') : `<div class="col-span-full text-center py-12 tactical-green">No news loaded — check connection</div>`;
     }
 
     function refreshNews() { 
@@ -210,7 +245,6 @@
       loadNews(); 
     }
 
-    // X Posts
     function loadXPosts() {
       const container = document.getElementById('x-grid');
       container.innerHTML = `
@@ -248,10 +282,5 @@
     loadXPosts();
     showTab(0);
   </script>
-
-  <!-- Sound Effects -->
-  <audio id="click" src="https://freesound.org/data/previews/276/276951_5121236-lq.mp3"></audio>
-  <audio id="beep" src="https://freesound.org/data/previews/276/276951_5121236-lq.mp3"></audio>
-  <audio id="refresh" src="https://freesound.org/data/previews/276/276951_5121236-lq.mp3"></audio>
 </body>
 </html>

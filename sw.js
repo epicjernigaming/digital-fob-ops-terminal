@@ -1,5 +1,5 @@
-// sw.js - Service Worker for DIGITAL FOB • Replaced Cyberpunk Theme
-const CACHE_NAME = 'digital-fob-replaced-v7';   // Bumped version
+// sw.js - Service Worker for DIGITAL FOB • OPS TERMINAL (Red/Yellow/Green Military Theme)
+const CACHE_NAME = 'digital-fob-military-v8';   // Bumped version for the new design
 
 const urlsToCache = [
   '/',
@@ -10,11 +10,12 @@ const urlsToCache = [
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
   'https://fonts.googleapis.com/css2?family=VT323&display=swap',
   'https://assets.mixkit.co/sfx/preview/296/296.mp3',
-  'https://assets.mixkit.co/sfx/preview/143/143.mp3'
+  'https://assets.mixkit.co/sfx/preview/143/143.mp3',
+  'https://i.imgur.com/m3hwL.jpg'   // Your background image
 ];
 
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing Replaced Cyberpunk v7');
+  console.log('[SW] Installing Military Cyberpunk v8');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
@@ -35,6 +36,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Skip external APIs that must stay live
   if (event.request.method !== 'GET' || 
       event.request.url.includes('rss2json.com') || 
       event.request.url.includes('platform.twitter.com')) {
@@ -46,3 +48,5 @@ self.addEventListener('fetch', (event) => {
       .then(cached => cached || fetch(event.request))
   );
 });
+
+console.log('[SW] DIGITAL FOB Military Terminal service worker active');

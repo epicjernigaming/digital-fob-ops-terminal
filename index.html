@@ -26,10 +26,7 @@
     
     .pip-boy {
       background: #0f1a0f;
-      box-shadow: 
-        0 0 50px var(--phosphor) inset,
-        0 0 110px var(--phosphor),
-        0 0 40px rgba(0,0,0,0.98) inset;
+      box-shadow: 0 0 50px var(--phosphor) inset, 0 0 110px var(--phosphor), 0 0 40px rgba(0,0,0,0.98) inset;
       border: 24px solid #3a4a3a;
       border-image: linear-gradient(#8fbc8f, #3a4a3a) 1;
       border-radius: 14px;
@@ -48,23 +45,15 @@
     
     .tactical-green { 
       color: var(--phosphor); 
-      text-shadow: 
-        0 0 8px var(--phosphor),
-        0 0 16px var(--phosphor),
-        0 0 28px #4a5f4a;
-      animation: phosphor-breath 4s ease-in-out infinite;
+      text-shadow: 0 0 8px var(--phosphor), 0 0 16px var(--phosphor), 0 0 28px #4a5f4a;
     }
-    
-    .alert-red { 
-      color: #ff7777; 
-      text-shadow: 0 0 12px #c94f4f; 
-    }
+    .alert-red { color: #ff7777; text-shadow: 0 0 12px #c94f4f; }
     
     .scanline::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(143,188,143,0.38) 50%);
+      background: linear-gradient(transparent 50%, rgba(143,188,143,0.35) 50%);
       background-size: 100% 3px;
       pointer-events: none;
       animation: scan 2.1s linear infinite;
@@ -72,15 +61,7 @@
       opacity: 0.92;
     }
     
-    @keyframes scan { 
-      0% { background-position: 0 0; } 
-      100% { background-position: 0 100%; } 
-    }
-    
-    @keyframes phosphor-breath {
-      0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--phosphor), 0 0 16px var(--phosphor); }
-      50% { opacity: 0.96; text-shadow: 0 0 12px var(--phosphor), 0 0 24px var(--phosphor); }
-    }
+    @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
     
     .card { 
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
@@ -90,15 +71,6 @@
     .card:hover { 
       transform: translateY(-6px); 
       box-shadow: 0 20px 40px rgba(143,188,143,0.7); 
-    }
-    
-    button {
-      transition: all 0.15s ease;
-      box-shadow: 0 6px 0 #3a4a3a;
-    }
-    button:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #3a4a3a;
     }
   </style>
 </head>
@@ -110,13 +82,17 @@
       <h1 class="text-3xl font-bold tracking-widest tactical-green">DIGITAL FOB</h1>
       <span class="text-xs bg-[#c94f4f] text-white px-3 py-1 rounded">OPS TERMINAL</span>
     </div>
-    <div class="flex gap-6 text-sm uppercase">
+    <div class="flex items-center gap-6 text-sm uppercase">
       <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
       <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
       <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1">X POSTS</a>
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
       <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-suitcase"></i> INVENTORY</a>
       <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-radio"></i> RADIO</a>
+      <button onclick="globalRefresh()" class="flex items-center gap-2 px-4 py-1 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">
+        <i class="fa-solid fa-sync"></i> REFRESH ALL
+      </button>
+      <button onclick="toggleTheme()" class="px-3 py-1 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">THEME</button>
     </div>
   </nav>
 
@@ -125,8 +101,13 @@
     <div class="max-w-2xl mx-auto pip-boy p-8 rounded-3xl">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 alert-red"></i>
       <h2 class="text-6xl mb-6 tactical-green">THE DIGITAL FOB</h2>
-      <p class="text-2xl mb-12 text-[#d1d5db]">Military • Simulation • RPG <br>Real-time ops intel for the squad.</p>
-      
+      <p class="text-2xl mb-8 text-[#d1d5db]">Squad Ops Terminal</p>
+
+      <!-- Live Discord Widget -->
+      <div class="pip-boy p-4 rounded-3xl mb-10">
+        <iframe src="https://discord.com/widget?id=1113655095687655518&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      </div>
+
       <div class="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
         <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-newspaper text-5xl"></i>
@@ -157,11 +138,38 @@
     function showTab(n) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById('tab-' + n).classList.remove('hidden');
+      localStorage.setItem('lastTab', n);
     }
 
-    // Your existing load functions for News, X Posts, Upcoming, Inventory, Radio go here
+    function globalRefresh() {
+      // Refresh all dynamic tabs
+      refreshNews();
+      refreshXPosts();
+      loadUpcoming();
+    }
 
-    showTab(0);
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      // You can expand this with more themes later
+    }
+
+    // Share to Discord helper
+    function shareToDiscord(title, url) {
+      const text = `**${title}**\n${url}\n#digital-fob-ops`;
+      navigator.clipboard.writeText(text).then(() => alert("✅ Copied to clipboard – paste in Discord!"));
+    }
+
+    // Remember last tab
+    const lastTab = localStorage.getItem('lastTab') || 0;
+    showTab(parseInt(lastTab));
+
+    // Your existing loadNews, loadXPosts, loadUpcoming, renderInventory functions go here
+
+    // Initialize
+    loadNews();
+    loadXPosts();
+    loadUpcoming();
+    renderInventory();
   </script>
 </body>
 </html>

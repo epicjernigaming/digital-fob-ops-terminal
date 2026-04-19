@@ -64,6 +64,24 @@
       box-shadow: 0 0 40px rgba(255, 0, 170, 0.6);
       transform: translateY(-4px);
     }
+
+    /* News & Deals Card Styling with Thumbnails */
+    .news-card, .deal-card {
+      background: rgba(15, 20, 25, 0.95);
+      border: 3px solid #00ff88;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .news-card:hover, .deal-card:hover {
+      border-color: #ff00aa;
+      box-shadow: 0 0 40px rgba(255, 0, 170, 0.6);
+      transform: translateY(-4px);
+    }
+    .thumbnail {
+      height: 140px;
+      object-fit: cover;
+      width: 100%;
+    }
     
     #digital-rain {
       position: fixed;
@@ -166,7 +184,7 @@
     </div>
   </div>
 
-  <!-- NEWS -->
+  <!-- NEWS (with thumbnail fallback) -->
   <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
@@ -205,7 +223,7 @@
     <div id="highlights-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
-  <!-- DEALS -->
+  <!-- DEALS (with thumbnail) -->
   <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
@@ -286,12 +304,24 @@
         allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
         allItems = allItems.slice(0, 12);
 
-        container.innerHTML = allItems.map(item => `
-          <a href="${item.link}" target="_blank" class="block border border-[#333] hover:border-[#00ff88] p-6 rounded-3xl bg-black/70 transition-all">
-            <div class="font-bold text-xl neon-green line-clamp-2">${item.title}</div>
-            <div class="text-sm text-gray-400 mt-3">${new Date(item.pubDate).toLocaleDateString()} • ${new URL(item.link).hostname}</div>
-          </a>
-        `).join('');
+        container.innerHTML = allItems.map(item => {
+          // Try to extract thumbnail from description if available
+          let thumb = '';
+          if (item.thumbnail) thumb = item.thumbnail;
+          else if (item.description) {
+            const match = item.description.match(/<img[^>]+src="([^">]+)"/);
+            if (match) thumb = match[1];
+          }
+          return `
+            <a href="${item.link}" target="_blank" class="news-card block rounded-3xl overflow-hidden">
+              ${thumb ? `<img src="${thumb}" class="thumbnail" alt="${item.title}" onerror="this.style.display='none'">` : ''}
+              <div class="p-6">
+                <div class="font-bold text-xl neon-green line-clamp-2">${item.title}</div>
+                <div class="text-sm text-gray-400 mt-3">${new Date(item.pubDate).toLocaleDateString()} • ${new URL(item.link).hostname}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
       } catch (e) {
         container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">News feeds temporarily unavailable — try again later</div>`;
       }
@@ -306,13 +336,16 @@
         const deals = await res.json();
 
         container.innerHTML = deals.map(deal => `
-          <a href="https://www.cheapshark.com/redirect?dealID=${deal.dealID}" target="_blank" class="block border border-[#333] hover:border-[#00ff88] p-6 rounded-3xl bg-black/70 transition-all">
-            <div class="font-bold text-xl neon-green">${deal.title}</div>
-            <div class="flex justify-between mt-4">
-              <span class="text-2xl font-bold text-white">$${deal.salePrice}</span>
-              <span class="neon-red">${deal.savings}% OFF</span>
+          <a href="https://www.cheapshark.com/redirect?dealID=${deal.dealID}" target="_blank" class="deal-card block rounded-3xl overflow-hidden">
+            ${deal.thumb ? `<img src="${deal.thumb}" class="thumbnail" alt="${deal.title}">` : ''}
+            <div class="p-6">
+              <div class="font-bold text-xl neon-green line-clamp-2">${deal.title}</div>
+              <div class="flex justify-between mt-4">
+                <span class="text-2xl font-bold text-white">$${deal.salePrice}</span>
+                <span class="neon-red">${Math.round(deal.savings)}% OFF</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-3">${deal.storeID === "1" ? "Steam" : "Other Store"}</p>
             </div>
-            <p class="text-xs text-gray-400 mt-3">${deal.storeID === "1" ? "Steam" : "Other Store"}</p>
           </a>
         `).join('');
       } catch (e) {
@@ -320,7 +353,7 @@
       }
     }
 
-    // Active Ops (from your bot)
+    // Active Ops (from your bot) - unchanged
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;

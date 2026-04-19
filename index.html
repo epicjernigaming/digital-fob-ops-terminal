@@ -38,81 +38,7 @@
       opacity: 0.7;
     }
     @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
-
-    /* Blinking LIVE indicator */
-    .blink-live {
-      animation: live-blink 1.2s step-end infinite;
-    }
-    @keyframes live-blink {
-      50% { opacity: 0.3; }
-    }
-
-    /* CRT Glitch Effect */
-    .crt-glitch {
-      position: relative;
-      animation: glitch 2s infinite linear alternate;
-    }
-    .crt-glitch::before,
-    .crt-glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .crt-glitch::before {
-      left: 2px;
-      text-shadow: -2px 0 #ff00aa;
-      animation: glitch-anim 1.5s infinite linear alternate-reverse;
-      clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-    }
-    .crt-glitch::after {
-      left: -2px;
-      text-shadow: 2px 0 #00ffff;
-      animation: glitch-anim2 1.8s infinite linear alternate-reverse;
-      clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-    }
-    @keyframes glitch-anim {
-      0% { clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%); }
-      20% { clip-path: polygon(0 10%, 100% 10%, 100% 40%, 0 40%); }
-      40% { clip-path: polygon(0 20%, 100% 20%, 100% 50%, 0 50%); }
-    }
-    @keyframes glitch-anim2 {
-      0% { clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%); }
-      30% { clip-path: polygon(0 77%, 100% 77%, 100% 100%, 0 100%); }
-    }
-
-    /* Vignette + Screen Curvature */
-    .terminal-screen {
-      position: relative;
-      border: 12px solid #1a1a1a;
-      border-image: linear-gradient(#ff2222, #00ff88) 1;
-      box-shadow: 
-        0 0 60px rgba(0, 0, 0, 0.9) inset,
-        0 0 40px rgba(255, 34, 34, 0.3);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .terminal-screen::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.6) 100%);
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    /* Screen curvature adjustment for mobile */
-    @media (max-width: 1024px) {
-      .terminal-screen {
-        border-radius: 4px;
-        box-shadow: 
-          0 0 40px rgba(0, 0, 0, 0.85) inset,
-          0 0 25px rgba(255, 34, 34, 0.25);
-      }
-    }
-
+    
     .big-button {
       transition: all 0.4s ease;
       border: 4px solid #00ff88;
@@ -148,6 +74,25 @@
       opacity: 0.18;
       mix-blend-mode: screen;
     }
+
+    /* Mobile Nav Improvements */
+    @media (max-width: 1024px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .nav-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        font-size: 1.15rem;
+      }
+      .live-status {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body class="scanline relative overflow-x-hidden">
@@ -161,8 +106,8 @@
       <div class="flex items-center gap-4 flex-shrink-0">
         <i class="fa-solid fa-tower-observation text-4xl neon-red"></i>
         <div>
-          <h1 class="text-3xl font-bold tracking-widest neon-green crt-glitch" data-text="THE DIGITAL FOB">THE DIGITAL FOB</h1>
-          <p class="text-sm neon-red tracking-widest crt-glitch" data-text="OPERATIONS TERMINAL">OPERATIONS TERMINAL</p>
+          <h1 class="text-3xl font-bold tracking-widest neon-green">THE DIGITAL FOB</h1>
+          <p class="text-sm neon-red tracking-widest">OPERATIONS TERMINAL</p>
         </div>
       </div>
 
@@ -179,7 +124,7 @@
       <!-- Live System Active -->
       <div class="live-status flex items-center gap-3 text-lg flex-shrink-0">
         <span class="neon-red blink-live">●</span>
-        <span class="neon-red font-bold blink-live">LIVE</span>
+        <span class="neon-red font-bold">LIVE</span>
         <span class="text-white">SYSTEM ACTIVE</span>
       </div>
     </div>
@@ -187,9 +132,9 @@
 
   <!-- HOME -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-8">
-    <div class="terminal-screen max-w-2xl mx-auto text-center py-8 px-6">
+    <div class="max-w-2xl mx-auto text-center py-8">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
-      <h2 class="text-6xl mb-4 neon-green crt-glitch" data-text="THE DIGITAL FOB">THE DIGITAL FOB</h2>
+      <h2 class="text-6xl mb-4 neon-green">THE DIGITAL FOB</h2>
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
@@ -223,60 +168,50 @@
 
   <!-- NEWS -->
   <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="terminal-screen p-8">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
-        <button onclick="loadNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH NEWS</button>
-      </div>
-      <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="loadNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH NEWS</button>
     </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- SQUAD FEED -->
   <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="terminal-screen p-8">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-comments"></i> SQUAD FEED</h2>
-        <button onclick="loadSquadFeed()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-      </div>
-      <div id="squad-feed-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-comments"></i> SQUAD FEED</h2>
+      <button onclick="loadSquadFeed()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
+    <div id="squad-feed-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- ACTIVE OPS -->
   <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="terminal-screen p-8">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-4xl neon-green flex items-center gap-4">
-          <span class="pulse-dot inline-block w-4 h-4 bg-emerald-400 rounded-full"></span>
-          ACTIVE OPS
-        </h2>
-        <button onclick="loadHotNow()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH OPS</button>
-      </div>
-      <div id="hot-now-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4">
+        <span class="pulse-dot inline-block w-4 h-4 bg-emerald-400 rounded-full"></span>
+        ACTIVE OPS
+      </h2>
+      <button onclick="loadHotNow()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH OPS</button>
     </div>
+    <div id="hot-now-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- HIGHLIGHTS -->
   <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="terminal-screen p-8">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-film"></i> HIGHLIGHTS</h2>
-        <button onclick="loadHighlights()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-      </div>
-      <div id="highlights-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-film"></i> HIGHLIGHTS</h2>
+      <button onclick="loadHighlights()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
+    <div id="highlights-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- DEALS -->
   <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="terminal-screen p-8">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
-        <button onclick="loadDeals()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
-      </div>
-      <div id="deals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[70vh] overflow-y-auto pr-2"></div>
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
+      <button onclick="loadDeals()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
     </div>
+    <div id="deals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[70vh] overflow-y-auto pr-2"></div>
   </div>
 
   <!-- Bottom Discord Banner -->
@@ -328,7 +263,7 @@
       setInterval(draw, 45);
     }
 
-    // Active Ops
+    // Active Ops (from your bot)
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;

@@ -1,9 +1,14 @@
 {
-  "lastUpdated": "2026-04-19T07:32:53.787Z",
-  "totalMentions": 1,
+  "lastUpdated": "2026-04-19T07:41:12.538Z",
+  "totalMentions": 2,
   "games": [
     {
       "name": "Windrose",
+      "count": 1,
+      "lastMentioned": "recently"
+    },
+    {
+      "name": "Replaced",
       "count": 1,
       "lastMentioned": "recently"
     }

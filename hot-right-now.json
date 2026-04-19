@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-19T07:41:12.538Z",
-  "totalMentions": 2,
+  "lastUpdated": "2026-04-19T07:41:30.049Z",
+  "totalMentions": 3,
   "games": [
     {
       "name": "Windrose",
@@ -9,6 +9,11 @@
     },
     {
       "name": "Replaced",
+      "count": 1,
+      "lastMentioned": "recently"
+    },
+    {
+      "name": "Gray zone warfare",
       "count": 1,
       "lastMentioned": "recently"
     }

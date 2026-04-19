@@ -27,7 +27,7 @@
     
     .terminal {
       background: rgba(17,17,17,0.96);
-      box-shadow: 0 0 40px #ff2222 inset;
+      box-shadow: 0 0 30px #ff2222 inset;
       border: 18px solid #222222;
       border-image: linear-gradient(#ff2222, #00ff88) 1;
       border-radius: 8px;
@@ -35,9 +35,9 @@
       overflow: hidden;
     }
     
-    .neon-red { color: #ff2222; text-shadow: none; } /* No glow on tower */
-    .neon-green { color: #00ff88; text-shadow: 0 0 6px #00ff88; }
-    .neon-yellow { color: #ffcc00; text-shadow: 0 0 6px #ffcc00; }
+    .neon-red { color: #ff2222; text-shadow: none; } /* Solid red, no glow */
+    .neon-green { color: #00ff88; text-shadow: none; }
+    .neon-yellow { color: #ffcc00; text-shadow: none; }
     
     .scanline::after {
       content: '';
@@ -191,13 +191,14 @@
         { user: "@Wario64", text: "Pragmata (Steam) is $49.99 on Newegg w/ code EPF4425 #ad", time: "Just now", url: "https://twitter.com/Wario64/status/2045655213005308089" },
         { user: "@pcgamer", text: "Owlcat reveals two new 40K companions...", time: "2h ago", url: "https://twitter.com/pcgamer/status/2045699876701585483" },
         { user: "@BohemiaInteractive", text: "Arma Reforger update rolling out soon...", time: "5h ago", url: "#" },
-        { user: "@OperatorDrewski", text: "New milsim session tonight - join the server!", time: "Yesterday", url: "#" }
+        { user: "@OperatorDrewski", text: "New milsim session tonight - join the server!", time: "Yesterday", url: "#" },
+        { user: "@GSCGameWorld", text: "STALKER 2 community update incoming...", time: "Yesterday", url: "#" }
       ];
 
       container.innerHTML = recentTweets.map(tweet => `
         <a href="${tweet.url}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#ffcc00]">
           <div class="flex justify-between text-base mb-3">
-            <span class="neon-green font-bold">${tweet.user}</span>
+            <span class="neon-yellow font-bold">${tweet.user}</span>
             <span class="neon-red">${tweet.time}</span>
           </div>
           <p class="neon-green leading-tight">${tweet.text}</p>

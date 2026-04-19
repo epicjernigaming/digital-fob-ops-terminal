@@ -66,28 +66,6 @@
       opacity: 0.18;
       mix-blend-mode: screen;
     }
-
-    /* Improved Responsive Top Nav */
-    .terminal-nav {
-      background: #0a0a0a;
-      border-bottom: 4px solid #00ff88;
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
-    }
-
-    .blink-live {
-      animation: blink 1.2s step-end infinite;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    /* Better mobile tab scrolling */
-    .nav-tabs {
-      scrollbar-width: none;
-    }
-    .nav-tabs::-webkit-scrollbar {
-      display: none;
-    }
   </style>
 </head>
 <body class="scanline relative overflow-x-hidden">
@@ -112,19 +90,17 @@
       <div class="flex items-center gap-3 text-lg flex-shrink-0">
         <span class="neon-red blink-live">●</span>
         <span class="neon-red font-bold">LIVE</span>
-        <span class="text-[#bbbbbb]">SYSTEM ACTIVE</span>
+        <span class="text-white">SYSTEM ACTIVE</span>
       </div>
 
       <!-- Right: Refresh + Tabs -->
       <div class="flex items-center gap-6 w-full lg:w-auto justify-center lg:justify-end">
         
-        <!-- Refresh Button -->
         <button onclick="refreshAll()" 
                 class="px-5 py-2 text-sm bg-transparent border-2 border-[#ff2222] hover:bg-[#ff2222] hover:text-black font-bold tracking-widest transition-all whitespace-nowrap">
           REFRESH ALL
         </button>
 
-        <!-- Tabs with Icons -->
         <div class="flex gap-5 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
           <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap">
             <i class="fa-solid fa-house"></i> HOME
@@ -149,25 +125,37 @@
     </div>
   </nav>
 
-  <!-- HOME -->
+  <!-- HOME - Updated with buttons for all sections -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
     <div class="max-w-2xl mx-auto p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
-      <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
-      <p class="text-2xl mb-12 text-[#bbbbbb]">Cyberpunk Military Ops Terminal<br>Real-time squad intel.</p>
+      <h2 class="text-6xl mb-4 neon-green">THE DIGITAL FOB</h2>
+      <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
-      <div class="flex flex-wrap justify-center gap-8">
-        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <button onclick="showTab(0)" class="flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#ff2222] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+          <i class="fa-solid fa-house text-5xl"></i>
+          <span class="text-xl">HOME</span>
         </button>
-        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span>
+        <button onclick="showTab(1)" class="flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#ff2222] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+          <i class="fa-solid fa-newspaper text-5xl"></i>
+          <span class="text-xl">NEWS</span>
         </button>
-        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span>
+        <button onclick="showTab(2)" class="flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#ff2222] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+          <i class="fa-solid fa-x-twitter text-5xl"></i>
+          <span class="text-xl">X FEED</span>
         </button>
-        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-          <i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span>
+        <button onclick="showTab(3)" class="flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#ff2222] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+          <i class="fa-solid fa-calendar text-5xl"></i>
+          <span class="text-xl">UPCOMING</span>
+        </button>
+        <button onclick="showTab(4)" class="flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#ff2222] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+          <i class="fa-solid fa-tags text-5xl"></i>
+          <span class="text-xl">DEALS</span>
+        </button>
+        <button onclick="showTab(5)" class="flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#ff2222] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+          <i class="fa-solid fa-images text-5xl"></i>
+          <span class="text-xl">GALLERY</span>
         </button>
       </div>
     </div>
@@ -189,7 +177,7 @@
       <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
     <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
+    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-white"></div>
   </div>
 
   <!-- UPCOMING -->
@@ -226,7 +214,7 @@
         <span class="text-2xl neon-green">SQUAD COMM ACTIVE</span>
         <div class="flex items-center gap-3 text-lg">
           <span id="online-count" class="font-bold text-emerald-400">12</span>
-          <span class="text-[#bbbbbb]">Operators Online</span>
+          <span class="text-white">Operators Online</span>
           <span class="pulse-dot inline-block w-3 h-3 bg-emerald-400 rounded-full"></span>
         </div>
       </div>
@@ -240,13 +228,11 @@
   </div>
 
   <script>
-    // Sound Effects
     function playSound(id) {
       const audio = document.getElementById(id);
       if (audio) audio.play().catch(() => {});
     }
 
-    // Digital Rain
     function initDigitalRain() {
       const canvas = document.getElementById('digital-rain');
       const ctx = canvas.getContext('2d');
@@ -284,12 +270,10 @@
       alert("ALL SYSTEMS REFRESHED");
     }
 
-    // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
       if (e.key >= '1' && e.key <= '6') showTab(parseInt(e.key) - 1);
     });
 
-    // Gallery
     const galleryImages = [
       { url: "https://media.discordapp.net/attachments/1342927335401324554/1494853007131545751/19d9decc93796-screenshotUrl.jpg", caption: "Squad Op - Night Raid" },
       { url: "https://media.discordapp.net/attachments/1342927335401324554/1494844071271731342/19d9dbe65b463-screenshotUrl.jpg", caption: "Epic Victory Screen" },
@@ -319,7 +303,6 @@
       else banner.classList.remove('show');
     }
 
-    // Initialize
     window.addEventListener('load', () => {
       initDigitalRain();
       loadNews();

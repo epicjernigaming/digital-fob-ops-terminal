@@ -23,8 +23,8 @@
       overflow-x: hidden;
     }
     
-    .neon-red { color: #ff2222; }
-    .neon-green { color: #00ff88; }
+    .neon-red { color: #ff2222; text-shadow: 0 0 10px #ff2222; }
+    .neon-green { color: #00ff88; text-shadow: 0 0 10px #00ff88; }
     
     .scanline::after {
       content: '';
@@ -78,30 +78,18 @@
       mix-blend-mode: screen;
     }
 
-    /* Enhanced Bottom Discord Banner */
-    #discord-bottom-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #000;
-      border-top: 3px solid #00ff88;
-      padding: 14px 20px;
-      z-index: 60;
-      display: none;
-      align-items: center;
-      box-shadow: 0 -8px 25px rgba(0, 255, 136, 0.35);
+    /* Military Terminal Top Nav */
+    .terminal-nav {
+      background: #0a0a0a;
+      border-bottom: 4px solid #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
     }
-    #discord-bottom-banner.show {
-      display: flex;
+
+    .blink-live {
+      animation: blink 1.2s step-end infinite;
     }
-    
-    .pulse-dot {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+    @keyframes blink {
+      50% { opacity: 0; }
     }
   </style>
 </head>
@@ -110,20 +98,36 @@
   <!-- Digital Rain -->
   <canvas id="digital-rain"></canvas>
 
-  <!-- Top Nav -->
-  <nav class="bg-black border-b-3 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-2xl">
-    <div class="flex items-center gap-3">
+  <!-- Upgraded Military Terminal Top Nav -->
+  <nav class="terminal-nav p-4 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-4">
       <i class="fa-solid fa-tower-observation text-4xl neon-red"></i>
-      <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
+      <div>
+        <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
+        <p class="text-xs text-emerald-400 tracking-widest">FORWARD OPERATING BASE</p>
+      </div>
     </div>
-    <div class="text-xl neon-red font-bold">OPS TERMINAL</div>
+
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2 text-sm">
+        <span class="neon-red blink-live">●</span>
+        <span class="neon-red font-bold">LIVE</span>
+        <span class="text-[#bbbbbb] text-xs">SYSTEM ACTIVE</span>
+      </div>
+      
+      <button onclick="refreshAll()" 
+              class="px-6 py-2 bg-transparent border-2 border-[#ff2222] hover:bg-[#ff2222] hover:text-black font-bold tracking-widest transition-all">
+        REFRESH ALL SYSTEMS
+      </button>
+    </div>
+
     <div class="flex gap-6 text-sm uppercase tracking-widest">
-      <a onclick="showTab(0)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-home"></i> HOME</a>
-      <a onclick="showTab(1)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-      <a onclick="showTab(2)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
-      <a onclick="showTab(3)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
-      <a onclick="showTab(4)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
-      <a onclick="showTab(5)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-images"></i> GALLERY</a>
+      <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
+      <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
+      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
+      <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
+      <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
+      <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-images"></i> GALLERY</a>
     </div>
   </nav>
 
@@ -188,15 +192,13 @@
     <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
   </div>
 
-  <!-- SQUAD GALLERY - New Tab -->
+  <!-- SQUAD GALLERY -->
   <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> SQUAD GALLERY</h2>
       <button onclick="refreshGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
     </div>
-    <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Images will be loaded here -->
-    </div>
+    <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- Enhanced Bottom Discord Banner -->
@@ -226,7 +228,7 @@
       if (audio) audio.play().catch(() => {});
     }
 
-    // Digital Rain
+    // Digital Rain (unchanged)
     function initDigitalRain() {
       const canvas = document.getElementById('digital-rain');
       const ctx = canvas.getContext('2d');
@@ -254,35 +256,32 @@
       setInterval(draw, 45);
     }
 
-    // Glitch
-    function triggerGlitch() {
-      document.body.classList.add('glitch-active');
-      setTimeout(() => document.body.classList.remove('glitch-active'), 400);
+    // Global Refresh
+    function refreshAll() {
+      playSound('refresh');
+      refreshNews();
+      refreshXPosts();
+      refreshUpcoming();
+      refreshDiscounts();
+      refreshGallery();
+      alert("ALL SYSTEMS REFRESHED — NEW INTEL LOADED");
     }
-    setInterval(() => { if (Math.random() > 0.6) triggerGlitch(); }, 10000);
 
-    // Gallery Data
-    const galleryImages = [
-      {
-        url: "https://media.discordapp.net/attachments/1342927335401324554/1494853007131545751/19d9decc93796-screenshotUrl.jpg?ex=69e56f59&is=69e41dd9&hm=207c5ad582e06114664b9b7eb3d561d81b2f4f2238fcb441f29ed32699aa4db8&=&format=webp&width=925&height=520",
-        caption: "Squad Op - Night Raid"
-      },
-      {
-        url: "https://media.discordapp.net/attachments/1342927335401324554/1494844071271731342/19d9dbe65b463-screenshotUrl.jpg?ex=69e56707&is=69e41587&hm=2001196ed20371af8e2e4cca667608f5bb34a6527efcc3e947d703557e843f30&=&format=webp&width=925&height=520",
-        caption: "Epic Victory Screen"
-      },
-      {
-        url: "https://media.discordapp.net/attachments/1342927335401324554/1485781478104236112/download_8.jpg?ex=69e56454&is=69e412d4&hm=6553de21bcef4ce8a69fee6a41de2a533401bb6cb3174177b9605d5bfadf2775&=&format=webp&width=925&height=520",
-        caption: "Base Defense"
-      },
-      {
-        url: "https://media.discordapp.net/attachments/1342927335401324554/1467225009578577952/270880_1201.jpg?ex=69e51ec6&is=69e3cd46&hm=54a952a515789ab929bb3f865ac4f3a457471ced59ed8fa61ac31adb1d388871&=&format=webp&width=925&height=520",
-        caption: "Operator Down"
-      },
-      {
-        url: "https://media.discordapp.net/attachments/1342927335401324554/1345962546561159188/20250302223343_1.jpg?ex=69e59ecd&is=69e44d4d&hm=fc9b0dc5356ed5c7c2cdb66382e0e0ddac64eb0d91b622d3881e289f588d8e01&=&format=webp&width=925&height=520",
-        caption: "Squad Extraction"
+    // Keyboard Shortcuts (1-6)
+    document.addEventListener('keydown', (e) => {
+      if (e.key >= '1' && e.key <= '6') {
+        const tabNumber = parseInt(e.key) - 1;
+        showTab(tabNumber);
       }
+    });
+
+    // Gallery Images
+    const galleryImages = [
+      { url: "https://media.discordapp.net/attachments/1342927335401324554/1494853007131545751/19d9decc93796-screenshotUrl.jpg", caption: "Squad Op - Night Raid" },
+      { url: "https://media.discordapp.net/attachments/1342927335401324554/1494844071271731342/19d9dbe65b463-screenshotUrl.jpg", caption: "Epic Victory Screen" },
+      { url: "https://media.discordapp.net/attachments/1342927335401324554/1485781478104236112/download_8.jpg", caption: "Base Defense" },
+      { url: "https://media.discordapp.net/attachments/1342927335401324554/1467225009578577952/270880_1201.jpg", caption: "Operator Down" },
+      { url: "https://media.discordapp.net/attachments/1342927335401324554/1345962546561159188/20250302223343_1.jpg", caption: "Squad Extraction" }
     ];
 
     function loadGallery() {
@@ -290,9 +289,7 @@
       container.innerHTML = galleryImages.map(img => `
         <div class="card overflow-hidden rounded-3xl">
           <img src="${img.url}" alt="${img.caption}" class="gallery-img w-full h-64 object-cover">
-          <div class="p-4 text-center">
-            <p class="neon-green">${img.caption}</p>
-          </div>
+          <div class="p-4 text-center neon-green">${img.caption}</div>
         </div>
       `).join('');
     }
@@ -305,11 +302,8 @@
       document.getElementById('tab-' + n).classList.remove('hidden');
 
       const banner = document.getElementById('discord-bottom-banner');
-      if (n === 0) {
-        banner.classList.add('show');
-      } else {
-        banner.classList.remove('show');
-      }
+      if (n === 0) banner.classList.add('show');
+      else banner.classList.remove('show');
     }
 
     // Initialize

@@ -48,10 +48,9 @@
       transform: translateY(-6px);
       box-shadow: 0 0 35px #00ff88;
       border-color: #ff2222;
-      background: rgba(17, 34, 17, 0.95);
     }
 
-    /* Hot Right Now Cards */
+    /* Hot Right Now Cards - Refined */
     .hot-now-card {
       background: rgba(15, 20, 25, 0.95);
       border: 3px solid #00ff88;
@@ -63,7 +62,7 @@
     .hot-now-card:hover {
       border-color: #ff00aa;
       box-shadow: 0 0 40px rgba(255, 0, 170, 0.6);
-      transform: translateY(-6px);
+      transform: translateY(-4px);
     }
     .hot-now-card::before {
       content: '';
@@ -112,52 +111,33 @@
         <span class="text-white">SYSTEM ACTIVE</span>
       </div>
 
-      <div class="flex gap-5 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
+      <div class="flex gap-4 md:gap-5 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
         <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-house"></i> HOME</a>
         <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-newspaper"></i> NEWS</a>
         <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
         <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
         <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-tags"></i> DEALS</a>
         <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-images"></i> GALLERY</a>
+        <a onclick="showTab(6)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-fire"></i> ACTIVE OPS</a>
       </div>
     </div>
   </nav>
 
   <!-- HOME -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-8">
-    <!-- HOT RIGHT NOW -->
-    <div class="terminal-panel mb-12">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-4xl neon-green flex items-center gap-4">
-          <span class="inline-block w-4 h-4 bg-emerald-400 rounded-full live-dot"></span>
-          HOT RIGHT NOW / ACTIVE OPS
-        </h2>
-        <button onclick="loadHotNow()" 
-                class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] hover:text-black text-white rounded-2xl text-sm font-bold transition-all">
-          REFRESH OPS
-        </button>
-      </div>
-      <div id="hot-now-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </div>
-
-    <!-- Big Navigation Buttons -->
-    <div class="max-w-2xl mx-auto p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
+    <div class="max-w-2xl mx-auto text-center">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
       <h2 class="text-6xl mb-4 neon-green">THE DIGITAL FOB</h2>
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-house text-5xl"></i>
-          <span class="text-xl">HOME</span>
-        </button>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
         <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-xl">NEWS</span>
         </button>
-        <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-x-twitter text-5xl"></i>
-          <span class="text-xl">X FEED</span>
+        <button onclick="showTab(6)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-fire text-5xl"></i>
+          <span class="text-xl">ACTIVE OPS</span>
         </button>
         <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-calendar text-5xl"></i>
@@ -175,12 +155,24 @@
     </div>
   </div>
 
-  <!-- Other tabs remain the same (News, X Feed, Upcoming, Deals, Gallery) -->
-  <!-- Paste your previous tab content here if needed, or keep from last working version -->
+  <!-- ACTIVE OPS (Hot Right Now) - New Dedicated Tab -->
+  <div id="tab-6" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4">
+        <span class="inline-block w-5 h-5 bg-emerald-400 rounded-full live-dot"></span>
+        HOT RIGHT NOW / ACTIVE OPS
+      </h2>
+      <button onclick="loadHotNow()" class="px-8 py-3 bg-[#ff2222] hover:bg-[#00ff88] hover:text-black text-white rounded-2xl text-sm font-bold">REFRESH OPS</button>
+    </div>
+    <div id="hot-now-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- Other tabs (News, X Feed, Upcoming, Deals, Gallery) go here -->
+  <!-- (Keep your existing tab-1 to tab-5 content from previous versions) -->
 
   <!-- Bottom Discord Banner -->
   <div id="discord-bottom-banner">
-    <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-8 px-4">
+    <div class="max-w-6xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-6 px-4 py-4 border-t border-[#333]">
       <div class="flex items-center gap-6">
         <span class="text-2xl neon-green">SQUAD COMM ACTIVE</span>
         <div class="flex items-center gap-3 text-lg">
@@ -189,8 +181,7 @@
           <span class="pulse-dot inline-block w-3 h-3 bg-emerald-400 rounded-full"></span>
         </div>
       </div>
-      <a href="https://discord.gg/nvtauRav" 
-         target="_blank"
+      <a href="https://discord.gg/nvtauRav" target="_blank"
          class="px-8 py-3 text-lg bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold tracking-widest flex items-center gap-3 transition-all">
         <i class="fa-brands fa-discord text-2xl"></i>
         JOIN THE DIGITAL FOB
@@ -199,63 +190,36 @@
   </div>
 
   <script>
-    function initDigitalRain() {
-      const canvas = document.getElementById('digital-rain');
-      const ctx = canvas.getContext('2d');
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      resize();
-      window.addEventListener('resize', resize);
+    // ... keep your existing initDigitalRain(), loadNews(), loadUpcoming(), loadDeals(), loadGallery() functions ...
 
-      const chars = '01アイウエオカキクケコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      const fontSize = 14;
-      const columns = canvas.width / fontSize;
-      const drops = Array(Math.floor(columns)).fill(1);
-
-      function draw() {
-        ctx.fillStyle = 'rgba(5,5,10,0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff88';
-        ctx.font = `${fontSize}px VT323`;
-        for (let i = 0; i < drops.length; i++) {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-          drops[i]++;
-        }
-      }
-      setInterval(draw, 45);
-    }
-
-    // Refined Hot Right Now
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING SQUAD COMMS...</div>`;
 
       try {
         const res = await fetch('https://epicjernigaming.github.io/digital-fob-ops-terminal/hot-right-now.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error("No data");
         const data = await res.json();
 
-        if (!data.games || data.games.length === 0) throw new Error("No games");
+        if (!data.games || data.games.length === 0) throw new Error();
 
         container.innerHTML = data.games.map((game, index) => `
           <div class="hot-now-card p-6 rounded-3xl">
-            <div class="flex justify-between items-start mb-4">
-              <span class="bg-red-600 text-black text-xs font-bold px-3 py-1 rounded-full">#${index + 1}</span>
-              ${index === 0 ? `<span class="flex items-center gap-2 text-red-400 text-sm"><span class="live-dot inline-block w-3 h-3 bg-red-500 rounded-full"></span> TRENDING</span>` : ''}
+            <div class="flex justify-between mb-4">
+              <span class="bg-red-600 text-black px-3 py-1 text-xs font-bold rounded-full">#${index+1}</span>
+              ${index === 0 ? `<span class="text-red-400 flex items-center gap-2 text-sm"><span class="live-dot w-3 h-3 bg-red-500 rounded-full inline-block"></span>TRENDING</span>` : ''}
             </div>
-            <h4 class="font-bold text-2xl neon-green mb-4 leading-tight">${game.name}</h4>
-            <div class="flex items-center justify-between text-sm">
+            <h4 class="text-2xl font-bold neon-green mb-4">${game.name}</h4>
+            <div class="flex justify-between text-sm">
               <span class="text-emerald-400">${game.count} operators</span>
-              <span class="text-gray-400 text-xs">Active recently</span>
+              <span class="text-gray-400">Active recently</span>
             </div>
           </div>
         `).join('');
       } catch (e) {
         container.innerHTML = `
-          <div class="col-span-full text-center py-16 border border-[#444] rounded-3xl bg-black/60">
-            <p class="text-red-400 text-xl">NO ACTIVE OPS LOGGED</p>
-            <p class="text-gray-400 mt-4 text-base">Squad members should post <span class="neon-green">"Playing: Game Name"</span> in the designated Discord channel.</p>
+          <div class="col-span-full text-center py-16 border border-[#444] rounded-3xl">
+            <p class="text-red-400 text-xl">NO ACTIVE OPS LOGGED YET</p>
+            <p class="text-gray-400 mt-4">Post "Playing: Game Name" in the Discord channel to appear here.</p>
           </div>`;
       }
     }
@@ -265,12 +229,10 @@
       document.getElementById('tab-' + n).classList.remove('hidden');
 
       const banner = document.getElementById('discord-bottom-banner');
-      if (n === 0) {
-        banner.classList.add('show');
-        loadHotNow();
-      } else {
-        banner.classList.remove('show');
-      }
+      if (n === 0) banner.classList.add('show');
+      else banner.classList.remove('show');
+
+      if (n === 6) loadHotNow();
     }
 
     window.addEventListener('load', () => {

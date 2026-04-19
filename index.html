@@ -99,34 +99,20 @@
       </div>
     </div>
 
-    <!-- Center: Global Refresh Button -->
+    <!-- Center: Live System Active -->
+    <div class="flex items-center gap-3 text-lg">
+      <span class="neon-red blink-live">●</span>
+      <span class="neon-red font-bold">LIVE</span>
+      <span class="text-[#bbbbbb]">SYSTEM ACTIVE</span>
+    </div>
+
+    <!-- Right: Smaller Refresh Button -->
     <button onclick="refreshAll()" 
-            class="px-8 py-3 bg-transparent border-2 border-[#ff2222] hover:bg-[#ff2222] hover:text-black font-bold tracking-widest transition-all text-lg">
+            class="px-6 py-2 text-sm bg-transparent border-2 border-[#ff2222] hover:bg-[#ff2222] hover:text-black font-bold tracking-widest transition-all">
       REFRESH ALL SYSTEMS
     </button>
-
-    <!-- Right: Live Status + Tabs -->
-    <div class="flex items-center gap-8">
-      <!-- Live Status -->
-      <div class="flex items-center gap-2 text-sm">
-        <span class="neon-red blink-live">●</span>
-        <span class="neon-red font-bold">LIVE</span>
-        <span class="text-[#bbbbbb]">SYSTEM ACTIVE</span>
-      </div>
-
-      <!-- Tabs -->
-      <div class="flex gap-6 text-sm uppercase tracking-widest">
-        <a onclick="showTab(0)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-home"></i> HOME</a>
-        <a onclick="showTab(1)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-        <a onclick="showTab(2)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
-        <a onclick="showTab(3)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
-        <a onclick="showTab(4)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-tags"></i> DISCOUNTS</a>
-        <a onclick="showTab(5)" class="cursor-pointer hover:text-white"><i class="fa-solid fa-images"></i> GALLERY</a>
-      </div>
-    </div>
   </nav>
 
-  <!-- All your content tabs remain the same (Home, News, X Feed, Upcoming, Discounts, Gallery) -->
   <!-- HOME -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
     <div class="max-w-2xl mx-auto p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
@@ -151,10 +137,53 @@
     </div>
   </div>
 
-  <!-- NEWS, X FEED, UPCOMING, DISCOUNTS, GALLERY tabs remain the same as previous version -->
-  <!-- (I'm keeping them short here for readability, but they are fully included in the code you'll copy) -->
+  <!-- NEWS -->
+  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
 
-  <!-- Bottom Discord Banner -->
+  <!-- X FEED -->
+  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LIVE SQUAD FEED</h2>
+      <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
+  </div>
+
+  <!-- UPCOMING -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
+      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
+    </div>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- DISCOUNTS -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
+      <button onclick="refreshDiscounts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
+    </div>
+    <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- SQUAD GALLERY -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> SQUAD GALLERY</h2>
+      <button onclick="refreshGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
+    </div>
+    <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- Enhanced Bottom Discord Banner -->
   <div id="discord-bottom-banner">
     <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-8 px-4">
       <div class="flex items-center gap-6">

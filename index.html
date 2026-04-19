@@ -60,13 +60,6 @@
       opacity: 0.18;
       mix-blend-mode: screen;
     }
-
-    /* Improved Top Nav */
-    .terminal-nav {
-      background: #0a0a0a;
-      border-bottom: 4px solid #00ff88;
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
-    }
   </style>
 </head>
 <body class="scanline relative overflow-x-hidden">
@@ -74,7 +67,7 @@
   <!-- Digital Rain -->
   <canvas id="digital-rain"></canvas>
 
-  <!-- Top Nav - Clean & Mobile Friendly -->
+  <!-- Top Nav -->
   <nav class="terminal-nav p-4 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
 
@@ -107,36 +100,36 @@
   </nav>
 
   <!-- HOME -->
-  <div id="tab-0" class="tab-content max-w-6xl mx-auto p-8 md:p-12 text-center">
+  <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
     <div class="max-w-2xl mx-auto p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
-      <i class="fa-solid fa-tower-observation text-8xl md:text-9xl mb-8 neon-red"></i>
-      <h2 class="text-5xl md:text-6xl mb-4 neon-green">THE DIGITAL FOB</h2>
+      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
+      <h2 class="text-6xl mb-4 neon-green">THE DIGITAL FOB</h2>
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-8 md:py-10 px-6 md:px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-house text-4xl md:text-5xl"></i>
-          <span class="text-lg md:text-xl">HOME</span>
+        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-house text-5xl"></i>
+          <span class="text-xl">HOME</span>
         </button>
-        <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-8 md:py-10 px-6 md:px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-newspaper text-4xl md:text-5xl"></i>
-          <span class="text-lg md:text-xl">NEWS</span>
+        <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-newspaper text-5xl"></i>
+          <span class="text-xl">NEWS</span>
         </button>
-        <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-8 md:py-10 px-6 md:px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-x-twitter text-4xl md:text-5xl"></i>
-          <span class="text-lg md:text-xl">X FEED</span>
+        <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-x-twitter text-5xl"></i>
+          <span class="text-xl">X FEED</span>
         </button>
-        <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-8 md:py-10 px-6 md:px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-calendar text-4xl md:text-5xl"></i>
-          <span class="text-lg md:text-xl">UPCOMING</span>
+        <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-calendar text-5xl"></i>
+          <span class="text-xl">UPCOMING</span>
         </button>
-        <button onclick="showTab(4)" class="big-button flex flex-col items-center gap-4 py-8 md:py-10 px-6 md:px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-tags text-4xl md:text-5xl"></i>
-          <span class="text-lg md:text-xl">DEALS</span>
+        <button onclick="showTab(4)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-tags text-5xl"></i>
+          <span class="text-xl">DEALS</span>
         </button>
-        <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-8 md:py-10 px-6 md:px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-images text-4xl md:text-5xl"></i>
-          <span class="text-lg md:text-xl">GALLERY</span>
+        <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-images text-5xl"></i>
+          <span class="text-xl">GALLERY</span>
         </button>
       </div>
     </div>
@@ -146,49 +139,54 @@
   <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
-      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
-    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    <div class="bg-black/80 border border-[#333] p-12 text-center rounded-3xl">
+      <p class="text-white text-xl">Live news feed is temporarily offline.</p>
+      <p class="text-gray-400 mt-4">Check back soon for latest gaming intel.</p>
+    </div>
   </div>
 
   <!-- X FEED -->
   <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LIVE SQUAD FEED</h2>
-      <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
-    <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-white"></div>
+    <div class="bg-black/80 border border-[#333] p-12 text-center rounded-3xl">
+      <p class="text-white text-xl">X / Twitter feed is temporarily offline.</p>
+      <p class="text-gray-400 mt-4">Join Discord for real-time squad updates.</p>
+    </div>
   </div>
 
   <!-- UPCOMING -->
   <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
-      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
     </div>
-    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    <div class="bg-black/80 border border-[#333] p-12 text-center rounded-3xl">
+      <p class="text-white text-xl">Steam Upcoming section is temporarily offline.</p>
+      <p class="text-gray-400 mt-4">Check Steam directly for new releases.</p>
+    </div>
   </div>
 
-  <!-- DISCOUNTS -->
+  <!-- DEALS - Now using CheapShark API -->
   <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
-      <button onclick="refreshDiscounts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
+      <button onclick="loadDeals()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
     </div>
-    <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    <div id="deals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- SQUAD GALLERY -->
   <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> SQUAD GALLERY</h2>
-      <button onclick="refreshGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
+      <button onclick="loadGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
     </div>
     <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
-  <!-- Bottom Discord Banner - Smaller & Cleaner -->
+  <!-- Bottom Discord Banner -->
   <div id="discord-bottom-banner">
     <div class="max-w-6xl mx-auto w-full flex items-center justify-between gap-8 px-4">
       <div class="flex items-center gap-6">
@@ -236,6 +234,33 @@
       setInterval(draw, 45);
     }
 
+    // CheapShark Deals API
+    async function loadDeals() {
+      const container = document.getElementById('deals-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading current deals...</div>`;
+
+      try {
+        const res = await fetch('https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=50&sortBy=Deal%20Rating');
+        const deals = await res.json();
+
+        container.innerHTML = deals.slice(0, 9).map(deal => `
+          <a href="https://www.cheapshark.com/redirect?dealID=${deal.dealID}" target="_blank" 
+             class="card block rounded-3xl overflow-hidden border border-[#333] hover:border-[#00ff88]">
+            <img src="${deal.thumb}" alt="${deal.title}" class="w-full h-40 object-cover">
+            <div class="p-6">
+              <h4 class="font-bold text-lg neon-green line-clamp-2">${deal.title}</h4>
+              <div class="flex justify-between mt-4">
+                <span class="text-red-400 font-bold">-${deal.savings}%</span>
+                <span class="text-white">$${deal.salePrice}</span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Unable to load deals right now. Try again later.</div>`;
+      }
+    }
+
     const galleryImages = [
       { url: "https://media.discordapp.net/attachments/1342927335401324554/1494853007131545751/19d9decc93796-screenshotUrl.jpg", caption: "Squad Op - Night Raid" },
       { url: "https://media.discordapp.net/attachments/1342927335401324554/1494844071271731342/19d9dbe65b463-screenshotUrl.jpg", caption: "Epic Victory Screen" },
@@ -253,7 +278,6 @@
         </div>
       `).join('');
     }
-    function refreshGallery() { loadGallery(); }
 
     function showTab(n) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
@@ -262,14 +286,13 @@
       const banner = document.getElementById('discord-bottom-banner');
       if (n === 0) banner.classList.add('show');
       else banner.classList.remove('show');
+
+      // Auto-load deals when Deals tab is opened
+      if (n === 4) loadDeals();
     }
 
     window.addEventListener('load', () => {
       initDigitalRain();
-      loadNews();
-      loadXPosts();
-      loadUpcoming();
-      loadDiscounts();
       loadGallery();
       showTab(0);
     });

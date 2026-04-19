@@ -1,11 +1,12 @@
 {
   "name": "DIGITAL FOB • OPS TERMINAL",
-  "short_name": "Digital FOB",
-  "description": "Cyberpunk Military Ops Terminal - Real-time squad intel",
-  "start_url": "/index.html",
+  "short_name": "DIGITAL FOB",
+  "description": "Cyberpunk Military Ops Terminal for the squad — real-time gaming news, X feeds, Steam deals & Discord coordination.",
+  "start_url": "/digital-fob-ops-terminal/",
+  "scope": "/digital-fob-ops-terminal/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#ff2222",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00ff88",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -20,7 +21,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["games", "utilities"],
-  "lang": "en"
+  ]
 }

@@ -23,30 +23,73 @@
       overflow-x: hidden;
     }
     
-    .terminal { background: rgba(15,15,20,0.92); box-shadow: 0 0 35px #ff2222 inset; border: 18px solid #1a1a1a; border-image: linear-gradient(#ff2222, #00ff88) 1; border-radius: 8px; position: relative; overflow: hidden; z-index: 10; }
+    .terminal {
+      background: rgba(15,15,20,0.92);
+      box-shadow: 0 0 35px #ff2222 inset;
+      border: 18px solid #1a1a1a;
+      border-image: linear-gradient(#ff2222, #00ff88) 1;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+    
     .neon-red { color: #ff2222; text-shadow: none; }
     .neon-green { color: #00ff88; text-shadow: none; }
     
-    .scanline::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 50%, rgba(0,255,136,0.12) 50%); background-size: 100% 4px; pointer-events: none; animation: scan 2.5s linear infinite; z-index: 5; opacity: 0.7; }
+    /* Scanlines */
+    .scanline::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 50%, rgba(0,255,136,0.12) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      animation: scan 2.5s linear infinite;
+      z-index: 5;
+      opacity: 0.7;
+    }
     @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
     
-    @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px,2px); } 40% { transform: translate(-2px,-2px); } 60% { transform: translate(2px,2px); } 80% { transform: translate(2px,-2px); } 100% { transform: translate(0); } }
+    /* Glitch */
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
     .glitch-active { animation: glitch 0.3s linear; filter: hue-rotate(10deg) saturate(1.2); }
     
-    .card { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); border: 4px solid #222222; background: rgba(20,20,25,0.95); }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 0 20px #ff2222; border-color: #00ff88; }
+    .card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 4px solid #222222;
+      background: rgba(20,20,25,0.95);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 20px #ff2222;
+      border-color: #00ff88;
+    }
     
-    #digital-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.18; mix-blend-mode: screen; }
-    
-    /* Twitter widget styling */
-    .twitter-timeline { border: none !important; background: transparent !important; }
+    #digital-rain {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.18;
+      mix-blend-mode: screen;
+    }
   </style>
 </head>
 <body class="scanline relative overflow-x-hidden">
 
+  <!-- Digital Rain -->
   <canvas id="digital-rain"></canvas>
 
-  <!-- Top Banner -->
+  <!-- Top Banner: Solid Black with Thin Green Outline -->
   <nav class="bg-black border-b-2 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
     <div class="flex items-center gap-3">
       <i class="fa-solid fa-tower-observation text-4xl neon-red" style="filter: none;"></i>
@@ -62,22 +105,38 @@
     </div>
   </nav>
 
-  <!-- HOME (Transparent) -->
+  <!-- HOME -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
-    <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background:transparent;border:none;box-shadow:none;">
-      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red" style="filter:none;"></i>
+    <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
+      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red" style="filter: none;"></i>
       <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
       <p class="text-2xl mb-12 text-[#bbbbbb]">Cyberpunk Military Ops Terminal<br>Real-time squad intel.</p>
+      
       <div class="flex flex-wrap justify-center gap-8">
-        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl"><i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span></button>
-        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl"><i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span></button>
-        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl"><i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span></button>
-        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl"><i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span></button>
+        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span>
+        </button>
+        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span>
+        </button>
+        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span>
+        </button>
+        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- NEWS, UPCOMING, DISCOUNTS tabs remain exactly as in your last version with Steam API -->
+  <!-- NEWS -->
+  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
 
   <!-- X FEED - Live Twitter Widgets -->
   <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
@@ -85,21 +144,116 @@
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LIVE SQUAD FEED</h2>
       <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
-    <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Live widgets will be injected here -->
-    </div>
+    <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
     <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
   </div>
 
+  <!-- UPCOMING -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
+      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
+    </div>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- DISCOUNTS -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
+      <button onclick="refreshDiscounts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
+    </div>
+    <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
   <script>
-    // Sound Effects, Digital Rain, Glitch, Steam API functions (all preserved from your code)
+    // Sound Effects
+    function playSound(id) {
+      const audio = document.getElementById(id);
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      }
+    }
 
-    function playSound(id) { /* your existing playSound */ }
-    function initDigitalRain() { /* your existing */ }
-    function triggerGlitch() { /* your existing */ }
-    // ... loadNews, refreshNews, loadUpcoming, refreshUpcoming, loadDiscounts, refreshDiscounts, showTab ...
+    // Digital Rain
+    function initDigitalRain() {
+      const canvas = document.getElementById('digital-rain');
+      const ctx = canvas.getContext('2d');
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
 
-    // NEW: Live Twitter Widgets for top accounts
+      const chars = '01アイウエオカキクケコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      const drops = Array(Math.floor(columns)).fill(1);
+
+      function draw() {
+        ctx.fillStyle = 'rgba(5,5,10,0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff88';
+        ctx.font = `${fontSize}px VT323`;
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      setInterval(draw, 45);
+    }
+
+    // Glitch
+    function triggerGlitch() {
+      document.body.classList.add('glitch-active');
+      setTimeout(() => document.body.classList.remove('glitch-active'), 400);
+    }
+    setInterval(() => { if (Math.random() > 0.6) triggerGlitch(); }, 10000);
+
+    // RSS Proxy for News
+    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
+    const newsFeeds = [
+      "https://www.pcgamer.com/rss/", "https://www.rockpapershotgun.com/feed",
+      "https://www.ign.com/rss/articles/feed", "https://www.gamespot.com/feeds/news/",
+      "https://www.eurogamer.net/feed", "https://www.polygon.com/rss/index.xml",
+      "https://kotaku.com/rss", "https://www.gamesradar.com/feed",
+      "https://www.thegamer.com/feed", "https://www.dualshockers.com/feed",
+      "https://wccftech.com/feed/", "https://www.dsogaming.com/feed/",
+      "https://steamcommunity.com/games/steam/news/rss"
+    ];
+
+    async function loadNews() {
+      const container = document.getElementById('news-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading live intel...</div>`;
+      let allItems = [];
+      for (let url of newsFeeds) {
+        try {
+          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
+          const data = await res.json();
+          if (data.items) {
+            allItems = allItems.concat(data.items.slice(0, 6).map(item => ({
+              title: item.title,
+              date: item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'Recent',
+              url: item.link,
+              source: new URL(item.link).hostname.replace('www.', '')
+            })));
+          }
+        } catch(e) {}
+      }
+      container.innerHTML = allItems.map(item => `
+        <a href="${item.url}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#00ff88]">
+          <div class="flex justify-between items-center text-base mb-3">
+            <span class="neon-red">${item.date}</span>
+            <span class="neon-yellow">${item.source}</span>
+          </div>
+          <h4 class="font-bold leading-tight neon-green">${item.title}</h4>
+        </a>
+      `).join('');
+    }
+    function refreshNews() { playSound('refresh'); loadNews(); }
+
+    // Live X Feed - Twitter Widgets
     function loadXPosts() {
       const container = document.getElementById('x-grid');
       container.innerHTML = `
@@ -118,10 +272,59 @@
       `;
       document.getElementById('x-last-refreshed').innerHTML = `Last refreshed: ${new Date().toLocaleTimeString()}`;
     }
+    function refreshXPosts() { playSound('refresh'); loadXPosts(); }
 
-    function refreshXPosts() { 
-      playSound('refresh'); 
-      loadXPosts(); 
+    // Real-time Steam API (Upcoming & Discounts)
+    const CORS_PROXY = "https://api.allorigins.win/raw?url=";
+    const STEAM_FEATURED_URL = "https://store.steampowered.com/api/featuredcategories/?l=english&cc=US";
+
+    async function loadUpcoming() {
+      const container = document.getElementById('upcoming-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Pulling live Steam data...</div>`;
+      try {
+        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_FEATURED_URL));
+        const data = await res.json();
+        const items = [...(data.coming_soon?.items || []), ...(data.popularwishlist?.items || [])].slice(0, 9);
+        container.innerHTML = items.map(item => `
+          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
+            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-6"><h4 class="font-bold text-lg neon-green">${item.name}</h4><p class="text-sm text-[#cccccc] mt-2">View on Steam →</p></div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam API unavailable — try again later</div>`;
+      }
+    }
+    function refreshUpcoming() { playSound('refresh'); loadUpcoming(); }
+
+    async function loadDiscounts() {
+      const container = document.getElementById('discounts-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Pulling live Steam deals...</div>`;
+      try {
+        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_FEATURED_URL));
+        const data = await res.json();
+        const items = [...(data.specials?.items || []), ...(data.top_sellers?.items || [])].slice(0, 9);
+        container.innerHTML = items.map(item => `
+          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#00ff88]">
+            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-6">
+              <div class="flex justify-between"><h4 class="font-bold text-lg neon-green">${item.name}</h4>
+              ${item.discount_percent ? `<span class="text-red-400 font-bold">-${item.discount_percent}%</span>` : ''}
+              </div>
+              <p class="text-sm text-[#cccccc] mt-2">View Deal on Steam →</p>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam API unavailable — try again later</div>`;
+      }
+    }
+    function refreshDiscounts() { playSound('refresh'); loadDiscounts(); }
+
+    function showTab(n) {
+      playSound('click');
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+      document.getElementById('tab-' + n).classList.remove('hidden');
     }
 
     // Initialize

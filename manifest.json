@@ -1,7 +1,7 @@
 {
   "name": "DIGITAL FOB • OPS TERMINAL",
   "short_name": "Digital FOB",
-  "description": "Cyberpunk Ops Terminal for Military Sim & Tactical Gaming Squad",
+  "description": "Cyberpunk Neon Ops Terminal for Military Sim & Tactical Gaming",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0a12",
@@ -21,7 +21,6 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["games", "entertainment", "utilities"],
-  "lang": "en",
-  "scope": "/"
+  "categories": ["games", "entertainment"],
+  "lang": "en"
 }

@@ -17,7 +17,7 @@
     body { 
       font-family: 'VT323', monospace; 
       background: 
-        linear-gradient(rgba(10,10,15,0.85), rgba(10,10,15,0.92)),
+        linear-gradient(rgba(10,10,15,0.88), rgba(10,10,15,0.95)),
         url('https://i.imgur.com/m3hwL.jpg') center/cover no-repeat fixed;
       color: #00ff88;
       font-size: 1.4rem;
@@ -26,8 +26,8 @@
     }
     
     .terminal {
-      background: rgba(17,17,17,0.95);
-      box-shadow: 0 0 40px #ff2222 inset, 0 0 70px rgba(255,34,34,0.5);
+      background: rgba(17,17,17,0.96);
+      box-shadow: 0 0 40px #ff2222 inset;
       border: 18px solid #222222;
       border-image: linear-gradient(#ff2222, #00ff88) 1;
       border-radius: 8px;
@@ -35,7 +35,7 @@
       overflow: hidden;
     }
     
-    .neon-red { color: #ff2222; text-shadow: 0 0 6px #ff2222; }
+    .neon-red { color: #ff2222; text-shadow: none; } /* No glow on tower */
     .neon-green { color: #00ff88; text-shadow: 0 0 6px #00ff88; }
     .neon-yellow { color: #ffcc00; text-shadow: 0 0 6px #ffcc00; }
     
@@ -43,12 +43,12 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(0,255,136,0.15) 50%);
+      background: linear-gradient(transparent 50%, rgba(0,255,136,0.12) 50%);
       background-size: 100% 4px;
       pointer-events: none;
       animation: scan 2.8s linear infinite;
       z-index: 30;
-      opacity: 0.75;
+      opacity: 0.7;
     }
     
     @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
@@ -60,7 +60,7 @@
     }
     .card:hover { 
       transform: translateY(-4px); 
-      box-shadow: 0 0 25px #ff2222; 
+      box-shadow: 0 0 20px #ff2222; 
       border-color: #ffcc00;
     }
   </style>
@@ -114,7 +114,7 @@
     <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </div>
 
-  <!-- X POSTS - Actual latest tweets -->
+  <!-- X POSTS -->
   <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LATEST TWEETS FROM SQUAD SOURCES</h2>
@@ -187,11 +187,9 @@
 
     function loadXPosts() {
       const container = document.getElementById('x-grid');
-      // Latest real tweets from the listed accounts (as of April 19, 2026)
       const recentTweets = [
         { user: "@Wario64", text: "Pragmata (Steam) is $49.99 on Newegg w/ code EPF4425 #ad", time: "Just now", url: "https://twitter.com/Wario64/status/2045655213005308089" },
-        { user: "@pcgamer", text: "Owlcat reveals two new 40K companions, one for Rogue Trader and one for the upcoming Dark Heresy", time: "2h ago", url: "https://twitter.com/pcgamer/status/2045699876701585483" },
-        { user: "@40kWorldview", text: "PRAGMATA is another crystal-clear example of the darkness not comprehending the Light.", time: "3h ago", url: "#" },
+        { user: "@pcgamer", text: "Owlcat reveals two new 40K companions...", time: "2h ago", url: "https://twitter.com/pcgamer/status/2045699876701585483" },
         { user: "@BohemiaInteractive", text: "Arma Reforger update rolling out soon...", time: "5h ago", url: "#" },
         { user: "@OperatorDrewski", text: "New milsim session tonight - join the server!", time: "Yesterday", url: "#" }
       ];

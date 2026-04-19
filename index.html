@@ -49,12 +49,20 @@
     }
     .glitch-active { animation: glitch 0.3s linear; }
 
-    .card, .gallery-img {
+    /* Big Home Buttons with Hover Effects */
+    .big-button {
       transition: all 0.4s ease;
+      border: 4px solid #00ff88;
+      background: rgba(26, 26, 26, 0.95);
     }
-    .gallery-img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 30px #ff00aa;
+    .big-button:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 35px #00ff88;
+      border-color: #ff2222;
+      background: rgba(17, 34, 17, 0.95);
+    }
+    .big-button:active {
+      animation: glitch 0.25s linear;
     }
     
     #digital-rain {
@@ -112,7 +120,7 @@
     </div>
   </nav>
 
-  <!-- HOME -->
+  <!-- HOME - Big Buttons with Hover Effects -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
     <div class="max-w-2xl mx-auto p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
@@ -120,27 +128,27 @@
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#112211] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-house text-5xl"></i>
           <span class="text-xl">HOME</span>
         </button>
-        <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#112211] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+        <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-xl">NEWS</span>
         </button>
-        <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#112211] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+        <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-x-twitter text-5xl"></i>
           <span class="text-xl">X FEED</span>
         </button>
-        <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#112211] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+        <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-calendar text-5xl"></i>
           <span class="text-xl">UPCOMING</span>
         </button>
-        <button onclick="showTab(4)" class="big-button flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#112211] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+        <button onclick="showTab(4)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-tags text-5xl"></i>
           <span class="text-xl">DEALS</span>
         </button>
-        <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 bg-[#1a1a1a] hover:bg-[#112211] text-white font-bold rounded-3xl shadow-lg transition-all border border-[#00ff88]">
+        <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-images text-5xl"></i>
           <span class="text-xl">GALLERY</span>
         </button>
@@ -148,8 +156,51 @@
     </div>
   </div>
 
-  <!-- NEWS, X FEED, UPCOMING, DISCOUNTS, GALLERY tabs (shortened for space) -->
-  <!-- They remain fully functional as in previous versions -->
+  <!-- NEWS -->
+  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- X FEED -->
+  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LIVE SQUAD FEED</h2>
+      <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-white"></div>
+  </div>
+
+  <!-- UPCOMING -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
+      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
+    </div>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- DISCOUNTS -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
+      <button onclick="refreshDiscounts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
+    </div>
+    <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+
+  <!-- SQUAD GALLERY -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> SQUAD GALLERY</h2>
+      <button onclick="refreshGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
+    </div>
+    <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
 
   <!-- Bottom Discord Banner -->
   <div id="discord-bottom-banner">
@@ -172,23 +223,11 @@
   </div>
 
   <script>
-    // Improved Sound Effects (more reliable URLs)
-    let soundEnabled = true;
-
-    function playSound(type) {
-      if (!soundEnabled) return;
-      
-      const audio = new Audio();
-      if (type === 'click') {
-        audio.src = 'https://assets.mixkit.co/sfx/preview/296/296.mp3';   // click
-      } else if (type === 'refresh') {
-        audio.src = 'https://assets.mixkit.co/sfx/preview/143/143.mp3';   // refresh
-      }
-      audio.volume = 0.6;
-      audio.play().catch(() => {});
+    function playSound(id) {
+      const audio = document.getElementById(id);
+      if (audio) audio.play().catch(() => {});
     }
 
-    // Digital Rain
     function initDigitalRain() {
       const canvas = document.getElementById('digital-rain');
       const ctx = canvas.getContext('2d');
@@ -274,7 +313,7 @@
     }
   </script>
 
-  <!-- Sound Elements - Using more reliable sources -->
+  <!-- Sound Elements -->
   <audio id="click" src="https://assets.mixkit.co/sfx/preview/296/296.mp3" preload="auto"></audio>
   <audio id="refresh" src="https://assets.mixkit.co/sfx/preview/143/143.mp3" preload="auto"></audio>
 </body>

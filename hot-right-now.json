@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-04-19T07:29:36.097Z",
-  "totalMentions": 4,
+  "lastUpdated": "2026-04-19T07:29:52.279Z",
+  "totalMentions": 5,
   "games": [
     {
       "name": "Windrose",
@@ -19,6 +19,11 @@
     },
     {
       "name": "Death stranding",
+      "count": 1,
+      "lastMentioned": "recently"
+    },
+    {
+      "name": "Mlb the show 26",
       "count": 1,
       "lastMentioned": "recently"
     }

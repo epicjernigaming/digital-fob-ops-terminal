@@ -74,16 +74,6 @@
       opacity: 0.18;
       mix-blend-mode: screen;
     }
-
-    /* Mobile Nav Improvements */
-    @media (max-width: 1024px) {
-      .nav-tabs {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
-        font-size: 1.1rem;
-      }
-    }
   </style>
 </head>
 <body class="scanline relative overflow-x-hidden">
@@ -102,7 +92,7 @@
         </div>
       </div>
 
-      <!-- Centered Tabs - Better mobile wrapping -->
+      <!-- Centered Tabs -->
       <div class="flex gap-6 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0 justify-center">
         <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-house"></i> HOME</a>
         <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-newspaper"></i> NEWS</a>
@@ -254,7 +244,7 @@
       setInterval(draw, 45);
     }
 
-    // Active Ops
+    // Active Ops (from your bot)
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;
@@ -292,6 +282,19 @@
       else banner.classList.remove('show');
 
       if (n === 3) loadHotNow();
+    }
+
+    // === SERVICE WORKER REGISTRATION (PWA install support) ===
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('Service Worker registered successfully:', registration.scope);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      });
     }
 
     window.addEventListener('load', () => {

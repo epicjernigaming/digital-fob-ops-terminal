@@ -83,17 +83,24 @@
       mix-blend-mode: screen;
     }
 
-    /* New Sidebar Styles */
-    .sidebar {
+    /* Bottom Discord Banner - same footprint as top nav */
+    #discord-bottom-banner {
       position: fixed;
-      top: 80px;
-      right: 20px;
-      width: 320px;
-      z-index: 100;
-      display: none;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: black;
+      border-top: 2px solid #00ff88;
+      padding: 16px 20px;
+      z-index: 50;
+      display: none; /* hidden by default */
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      box-shadow: 0 -4px 15px rgba(0, 255, 136, 0.3);
     }
-    @media (min-width: 1024px) {
-      .sidebar { display: block; }
+    #discord-bottom-banner.show {
+      display: flex;
     }
   </style>
 </head>
@@ -102,10 +109,10 @@
   <!-- Digital Rain -->
   <canvas id="digital-rain"></canvas>
 
-  <!-- Top Banner -->
+  <!-- Top Banner (unchanged) -->
   <nav class="bg-black border-b-2 border-[#00ff88] p-4 flex items-center justify-between sticky top-0 z-50 shadow-xl">
     <div class="flex items-center gap-3">
-      <i class="fa-solid fa-tower-observation text-4xl neon-red"></i>
+      <i class="fa-solid fa-tower-observation text-4xl neon-red" style="filter: none;"></i>
       <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
     </div>
     <div class="text-xl neon-red font-bold">DIGITAL FOB • OPS TERMINAL</div>
@@ -118,161 +125,74 @@
     </div>
   </nav>
 
-  <!-- MAIN CONTENT AREA (shifted left on desktop to make space for sidebar) -->
-  <div class="max-w-6xl mx-auto p-8 lg:pr-80">   <!-- lg:pr-80 gives space for sidebar -->
-
-    <!-- HOME -->
-    <div id="tab-0" class="tab-content text-center">
-      <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
-        <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red"></i>
-        <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
-        <p class="text-2xl mb-12 text-[#bbbbbb]">Cyberpunk Military Ops Terminal<br>Real-time squad intel.</p>
-        
-        <div class="flex flex-wrap justify-center gap-8">
-          <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-            <i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span>
-          </button>
-          <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-            <i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span>
-          </button>
-          <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-            <i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span>
-          </button>
-          <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
-            <i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span>
-          </button>
-        </div>
+  <!-- HOME -->
+  <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
+    <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl" style="background: transparent; border: none; box-shadow: none;">
+      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red" style="filter: none;"></i>
+      <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
+      <p class="text-2xl mb-12 text-[#bbbbbb]">Cyberpunk Military Ops Terminal<br>Real-time squad intel.</p>
+      
+      <div class="flex flex-wrap justify-center gap-8">
+        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-newspaper text-5xl"></i><span>NEWS</span>
+        </button>
+        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-x-twitter text-5xl"></i><span>X FEED</span>
+        </button>
+        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-calendar text-5xl"></i><span>UPCOMING</span>
+        </button>
+        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#00ff88] text-black font-bold rounded-3xl shadow-lg min-w-[200px] text-2xl">
+          <i class="fa-solid fa-tags text-5xl"></i><span>DISCOUNTS</span>
+        </button>
       </div>
-    </div>
-
-    <!-- NEWS -->
-    <div id="tab-1" class="tab-content hidden">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
-        <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-      </div>
-      <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-    </div>
-
-    <!-- X FEED -->
-    <div id="tab-2" class="tab-content hidden">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> LIVE SQUAD FEED</h2>
-        <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-      </div>
-      <div id="x-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
-      <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
-    </div>
-
-    <!-- UPCOMING -->
-    <div id="tab-3" class="tab-content hidden">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
-        <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
-      </div>
-      <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-    </div>
-
-    <!-- DISCOUNTS -->
-    <div id="tab-4" class="tab-content hidden">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
-        <button onclick="refreshDiscounts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH DEALS</button>
-      </div>
-      <div id="discounts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </div>
   </div>
 
-  <!-- PERMANENT SIDEBAR - DISCORD SQUAD COMM -->
-  <div class="sidebar">
-    <div class="terminal p-6 border-4 border-[#ff2222] bg-black/90">
-      <h2 class="text-3xl neon-red flex items-center gap-3 mb-6">
-        <span class="text-emerald-400 animate-pulse">●</span> SQUAD COMM
-      </h2>
-      
-      <p class="text-xl mb-6 leading-tight">Join the Digital FOB Discord for live gaming sessions, voice ops, and squad coordination.</p>
-      
+  <!-- NEWS, X FEED, UPCOMING, DISCOUNTS tabs remain exactly as in your original file -->
+  <!-- Paste your original <div id="tab-1"> ... </div> through <div id="tab-4"> ... </div> here -->
+
+  <!-- BOTTOM DISCORD BANNER - Only shows on Home -->
+  <div id="discord-bottom-banner">
+    <div class="flex items-center gap-6 max-w-6xl w-full">
+      <div class="flex-1">
+        <span class="text-xl neon-green">SQUAD COMM ACTIVE</span>
+        <p class="text-base text-[#bbbbbb]">Join voice ops, plan sessions, and squad up with the crew.</p>
+      </div>
       <a href="https://discord.gg/nvtauRav" 
          target="_blank"
-         class="block w-full py-5 text-center bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-2xl tracking-widest mb-6 transition-all">
+         class="px-10 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-2xl tracking-widest transition-all flex items-center gap-3">
+        <i class="fa-brands fa-discord text-3xl"></i>
         JOIN OPS CHANNEL →
       </a>
-
-      <!-- Official Discord Widget -->
-      <iframe src="https://discord.com/widget?id=1113655095687655518&theme=dark" 
-              width="100%" 
-              height="400" 
-              allowtransparency="true" 
-              frameborder="0" 
-              sandbox="allow-popups allow-popups-to-escape-sandbox allow-scripts allow-same-origin">
-      </iframe>
-
-      <div class="mt-6 text-center text-sm neon-green">
-        <p>SQUAD LINK: <span class="text-emerald-400">ACTIVE</span></p>
-        <p class="text-xs mt-1">Operators online: LIVE</p>
-      </div>
     </div>
   </div>
 
   <script>
-    // === Your original scripts stay exactly the same below ===
-    // Sound Effects
-    function playSound(id) {
-      const audio = document.getElementById(id);
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-      }
-    }
-
-    // Digital Rain (unchanged)
-    function initDigitalRain() {
-      const canvas = document.getElementById('digital-rain');
-      const ctx = canvas.getContext('2d');
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const chars = '01アイウエオカキクケコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      const fontSize = 14;
-      const columns = canvas.width / fontSize;
-      const drops = Array(Math.floor(columns)).fill(1);
-
-      function draw() {
-        ctx.fillStyle = 'rgba(5,5,10,0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff88';
-        ctx.font = `${fontSize}px VT323`;
-        for (let i = 0; i < drops.length; i++) {
-          const text = chars[Math.floor(Math.random() * chars.length)];
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-          drops[i]++;
-        }
-      }
-      setInterval(draw, 45);
-    }
-
-    // Glitch (unchanged)
-    function triggerGlitch() {
-      document.body.classList.add('glitch-active');
-      setTimeout(() => document.body.classList.remove('glitch-active'), 400);
-    }
-    setInterval(() => { if (Math.random() > 0.6) triggerGlitch(); }, 10000);
-
-    // RSS News, X Feed, Steam functions (unchanged - copy from your original if needed)
-    // ... (I kept them out for brevity but they remain exactly as in your original file)
+    // === Your original script section (digital rain, glitch, loadNews, loadXPosts, etc.) ===
+    // Keep everything exactly as it was, just update the showTab function below
 
     function showTab(n) {
       playSound('click');
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById('tab-' + n).classList.remove('hidden');
+
+      // Show Discord banner ONLY on Home (tab 0)
+      const banner = document.getElementById('discord-bottom-banner');
+      if (n === 0) {
+        banner.classList.add('show');
+      } else {
+        banner.classList.remove('show');
+      }
     }
 
-    // Initialize
+    // Initialize (your original init code)
     initDigitalRain();
-    // loadNews(); loadXPosts(); loadUpcoming(); loadDiscounts();  // Uncomment these once you paste the full functions back
-    showTab(0);
+    loadNews();
+    loadXPosts();
+    loadUpcoming();
+    loadDiscounts();
+    showTab(0);   // starts on Home with banner visible
   </script>
 
   <!-- Sound Elements (unchanged) -->

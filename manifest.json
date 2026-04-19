@@ -1,21 +1,27 @@
 {
-  "name": "Digital FOB Ops Terminal",
-  "short_name": "DFOB",
-  "description": "Military • Simulation • RPG • Sports Sim Hangout",
+  "name": "DIGITAL FOB • OPS TERMINAL",
+  "short_name": "Digital FOB",
+  "description": "Cyberpunk Ops Terminal for Military Sim & Tactical Gaming Squad",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#0a120a",
-  "theme_color": "#8fbc8f",
+  "background_color": "#0a0a12",
+  "theme_color": "#00f0ff",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "favicon.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "favicon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "categories": ["games", "entertainment", "utilities"],
+  "lang": "en",
+  "scope": "/"
 }

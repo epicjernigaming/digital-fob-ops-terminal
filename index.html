@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00ff88">
   <title>DIGITAL FOB • OPS TERMINAL</title>
   
   <link rel="icon" href="favicon.png" type="image/png">
@@ -198,5 +200,19 @@
   <!-- Sound Elements (unchanged) -->
   <audio id="click" src="https://assets.mixkit.co/sfx/preview/296/296.mp3" preload="auto"></audio>
   <audio id="refresh" src="https://assets.mixkit.co/sfx/preview/143/143.mp3" preload="auto"></audio>
+  <script>
+  // Register Service Worker for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/digital-fob-ops-terminal/sw.js')
+        .then(reg => {
+          console.log('Digital FOB Service Worker registered successfully:', reg.scope);
+        })
+        .catch(err => {
+          console.log('Digital FOB Service Worker registration failed:', err);
+        });
+    });
+  }
+</script>
 </body>
 </html>

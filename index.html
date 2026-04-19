@@ -97,7 +97,7 @@
         <span class="text-white">SYSTEM ACTIVE</span>
       </div>
 
-      <div class="flex gap-5 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
+      <div class="flex gap-4 text-sm uppercase tracking-widest overflow-x-auto nav-tabs pb-1 lg:pb-0 flex-shrink-0">
         <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-house"></i> HOME</a>
         <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-newspaper"></i> NEWS</a>
         <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1.5 whitespace-nowrap"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
@@ -117,13 +117,17 @@
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-house text-5xl"></i>
+          <span class="text-xl">HOME</span>
+        </button>
         <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-xl">NEWS</span>
         </button>
-        <button onclick="showTab(6)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-fire text-5xl"></i>
-          <span class="text-xl">ACTIVE OPS</span>
+        <button onclick="showTab(2)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-x-twitter text-5xl"></i>
+          <span class="text-xl">X FEED</span>
         </button>
         <button onclick="showTab(3)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-calendar text-5xl"></i>
@@ -136,6 +140,10 @@
         <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-images text-5xl"></i>
           <span class="text-xl">GALLERY</span>
+        </button>
+        <button onclick="showTab(6)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-fire text-5xl"></i>
+          <span class="text-xl">ACTIVE OPS</span>
         </button>
       </div>
     </div>
@@ -249,7 +257,7 @@
       setInterval(draw, 45);
     }
 
-    // Hot Right Now (Active Ops)
+    // Hot Right Now → Active Ops
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;

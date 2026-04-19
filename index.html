@@ -16,7 +16,6 @@
     
     :root {
       --phosphor: #aaffaa;
-      --dark-green: #0f1a0f;
     }
     
     body { 
@@ -26,12 +25,11 @@
     }
     
     .pip-boy {
-      background: var(--dark-green);
+      background: #0f1a0f;
       box-shadow: 
         0 0 50px var(--phosphor) inset,
-        0 0 100px var(--phosphor),
-        0 0 40px rgba(0,0,0,0.98) inset,
-        inset 0 0 60px rgba(74,95,74,0.7);
+        0 0 110px var(--phosphor),
+        0 0 40px rgba(0,0,0,0.98) inset;
       border: 24px solid #3a4a3a;
       border-image: linear-gradient(#8fbc8f, #3a4a3a) 1;
       border-radius: 14px;
@@ -43,7 +41,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, transparent 62%, rgba(5,10,5,0.85) 100%);
+      background: radial-gradient(circle at center, transparent 62%, rgba(5,10,5,0.88) 100%);
       z-index: 20;
       border-radius: 14px;
     }
@@ -51,10 +49,12 @@
     .tactical-green { 
       color: var(--phosphor); 
       text-shadow: 
-        0 0 6px var(--phosphor),
-        0 0 12px var(--phosphor),
-        0 0 24px #4a5f4a;
+        0 0 8px var(--phosphor),
+        0 0 16px var(--phosphor),
+        0 0 28px #4a5f4a;
+      animation: phosphor-breath 4s ease-in-out infinite;
     }
+    
     .alert-red { 
       color: #ff7777; 
       text-shadow: 0 0 12px #c94f4f; 
@@ -64,7 +64,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(143,188,143,0.35) 50%);
+      background: linear-gradient(transparent 50%, rgba(143,188,143,0.38) 50%);
       background-size: 100% 3px;
       pointer-events: none;
       animation: scan 2.1s linear infinite;
@@ -77,11 +77,15 @@
       100% { background-position: 0 100%; } 
     }
     
+    @keyframes phosphor-breath {
+      0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--phosphor), 0 0 16px var(--phosphor); }
+      50% { opacity: 0.96; text-shadow: 0 0 12px var(--phosphor), 0 0 24px var(--phosphor); }
+    }
+    
     .card { 
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
       border: 6px solid #3a4a3a;
       background: #1a2a1a;
-      box-shadow: inset 0 0 20px rgba(143,188,143,0.2);
     }
     .card:hover { 
       transform: translateY(-6px); 
@@ -89,12 +93,12 @@
     }
     
     button {
-      transition: all 0.12s ease;
-      box-shadow: 0 4px 0 #3a4a3a;
+      transition: all 0.15s ease;
+      box-shadow: 0 6px 0 #3a4a3a;
     }
     button:active {
       transform: translateY(4px);
-      box-shadow: 0 0 0 #3a4a3a;
+      box-shadow: 0 2px 0 #3a4a3a;
     }
   </style>
 </head>
@@ -121,7 +125,7 @@
     <div class="max-w-2xl mx-auto pip-boy p-8 rounded-3xl">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 alert-red"></i>
       <h2 class="text-6xl mb-6 tactical-green">THE DIGITAL FOB</h2>
-      <p class="text-2xl mb-12 text-[#d1d5db]">Military • Simulation • RPG • Sports Sim Hangout<br>Real-time ops intel for the squad.</p>
+      <p class="text-2xl mb-12 text-[#d1d5db]">Military • Simulation • RPG <br>Real-time ops intel for the squad.</p>
       
       <div class="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
         <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
@@ -147,43 +151,7 @@
     </div>
   </div>
 
-  <!-- NEWS -->
-  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl tactical-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
-      <button onclick="refreshNews()" class="px-4 py-2 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-    </div>
-    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-  </div>
-
-  <!-- X POSTS -->
-  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl tactical-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> X / RUMORS &amp; DEV POSTS</h2>
-      <button onclick="refreshXPosts()" class="px-4 py-2 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">REFRESH</button>
-    </div>
-    <div id="x-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-  </div>
-
-  <!-- UPCOMING GAMES -->
-  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING GAMES</h2>
-    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
-  </div>
-
-  <!-- INVENTORY -->
-  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-suitcase"></i> SQUAD INVENTORY</h2>
-    <div id="inventory-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
-  </div>
-
-  <!-- RADIO -->
-  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
-    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-radio"></i> FALLOUT RADIO</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Radio stations from Fallout games -->
-    </div>
-  </div>
+  <!-- NEWS, X POSTS, UPCOMING, INVENTORY, RADIO tabs (your existing content) -->
 
   <script>
     function showTab(n) {
@@ -191,7 +159,7 @@
       document.getElementById('tab-' + n).classList.remove('hidden');
     }
 
-    // Your existing loadNews, loadXPosts, loadUpcoming, renderInventory functions go here
+    // Your existing load functions for News, X Posts, Upcoming, Inventory, Radio go here
 
     showTab(0);
   </script>

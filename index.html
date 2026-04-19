@@ -135,7 +135,7 @@
     </div>
   </div>
 
-  <!-- NEWS - Improved with multiple reliable sources -->
+  <!-- NEWS -->
   <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
@@ -155,18 +155,16 @@
     </div>
   </div>
 
-  <!-- UPCOMING -->
+  <!-- UPCOMING - Steam Popular Upcoming Games -->
   <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
-      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> MOST POPULAR UPCOMING GAMES</h2>
+      <button onclick="loadUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
     </div>
-    <div class="bg-black/80 border border-[#333] p-12 text-center rounded-3xl">
-      <p class="text-white text-xl">Steam Upcoming section is temporarily offline.</p>
-      <p class="text-gray-400 mt-4">Check Steam directly for new releases.</p>
-    </div>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[70vh] overflow-y-auto pr-2"></div>
   </div>
 
-  <!-- DEALS - CheapShark (30 scrollable results) -->
+  <!-- DEALS - CheapShark (30 scrollable) -->
   <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>
@@ -232,47 +230,38 @@
       setInterval(draw, 45);
     }
 
-    // Improved News - Multiple reliable RSS sources
-    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
-    const newsFeeds = [
-      "https://www.pcgamer.com/rss/",
-      "https://www.ign.com/rss/articles/feed",
-      "https://www.gamespot.com/feeds/news/",
-      "https://www.polygon.com/rss/index.xml",
-      "https://kotaku.com/rss"
-    ];
+    // Steam Popular Upcoming Games
+    const CORS_PROXY = "https://api.allorigins.win/raw?url=";
+    const STEAM_UPCOMING_URL = "https://store.steampowered.com/api/featuredcategories/?l=english&cc=US";
 
-    async function loadNews() {
-      const container = document.getElementById('news-grid');
-      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading latest gaming intel...</div>`;
+    async function loadUpcoming() {
+      const container = document.getElementById('upcoming-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading popular upcoming games...</div>`;
 
-      let allItems = [];
-      for (let url of newsFeeds) {
-        try {
-          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
-          const data = await res.json();
-          if (data.items) {
-            allItems = allItems.concat(data.items.slice(0, 8));
-          }
-        } catch (e) {}
+      try {
+        const res = await fetch(CORS_PROXY + encodeURIComponent(STEAM_UPCOMING_URL));
+        const data = await res.json();
+        const items = [
+          ...(data.coming_soon?.items || []),
+          ...(data.popularcomingsoon?.items || [])
+        ].slice(0, 12);
+
+        container.innerHTML = items.map(item => `
+          <a href="https://store.steampowered.com/app/${item.id}/" target="_blank" 
+             class="card block rounded-3xl overflow-hidden border border-[#333] hover:border-[#00ff88]">
+            <img src="${item.header_image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-6">
+              <h4 class="font-bold text-lg neon-green line-clamp-2">${item.name}</h4>
+              <p class="text-xs text-gray-400 mt-2">Coming soon on Steam</p>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Steam Upcoming data temporarily unavailable.</div>`;
       }
-
-      // Sort by date and take top 12
-      allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-      allItems = allItems.slice(0, 12);
-
-      container.innerHTML = allItems.map(item => `
-        <a href="${item.link}" target="_blank" class="card block p-6 rounded-3xl border border-[#333] hover:border-[#00ff88]">
-          <div class="flex justify-between items-center text-base mb-3">
-            <span class="neon-red">${new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'})}</span>
-            <span class="text-yellow-400">${new URL(item.link).hostname.replace('www.', '')}</span>
-          </div>
-          <h4 class="font-bold leading-tight neon-green line-clamp-3">${item.title}</h4>
-        </a>
-      `).join('');
     }
 
-    // CheapShark Deals (30 results, scrollable)
+    // CheapShark Deals (30 scrollable)
     async function loadDeals() {
       const container = document.getElementById('deals-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading current deals...</div>`;
@@ -297,6 +286,42 @@
       } catch (e) {
         container.innerHTML = `<div class="col-span-full text-center py-12 text-red-400">Unable to load deals right now.</div>`;
       }
+    }
+
+    // Improved News
+    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
+    const newsFeeds = [
+      "https://www.pcgamer.com/rss/",
+      "https://www.ign.com/rss/articles/feed",
+      "https://www.gamespot.com/feeds/news/",
+      "https://www.polygon.com/rss/index.xml"
+    ];
+
+    async function loadNews() {
+      const container = document.getElementById('news-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading latest gaming intel...</div>`;
+
+      let allItems = [];
+      for (let url of newsFeeds) {
+        try {
+          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
+          const data = await res.json();
+          if (data.items) allItems = allItems.concat(data.items.slice(0, 8));
+        } catch (e) {}
+      }
+
+      allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+      allItems = allItems.slice(0, 12);
+
+      container.innerHTML = allItems.map(item => `
+        <a href="${item.link}" target="_blank" class="card block p-6 rounded-3xl border border-[#333] hover:border-[#00ff88]">
+          <div class="flex justify-between items-center text-base mb-3">
+            <span class="neon-red">${new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'})}</span>
+            <span class="text-yellow-400">${new URL(item.link).hostname.replace('www.', '')}</span>
+          </div>
+          <h4 class="font-bold leading-tight neon-green line-clamp-3">${item.title}</h4>
+        </a>
+      `).join('');
     }
 
     const galleryImages = [
@@ -325,8 +350,9 @@
       if (n === 0) banner.classList.add('show');
       else banner.classList.remove('show');
 
-      if (n === 1) loadNews();      // Auto-load News
-      if (n === 4) loadDeals();     // Auto-load Deals
+      if (n === 1) loadNews();
+      if (n === 3) loadUpcoming();
+      if (n === 4) loadDeals();
     }
 
     window.addEventListener('load', () => {

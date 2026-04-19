@@ -51,16 +51,28 @@
       border-color: #ff2222;
     }
 
-    .media-card {
+    .hot-now-card {
       background: rgba(15, 20, 25, 0.95);
       border: 3px solid #00ff88;
       box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      position: relative;
+      overflow: hidden;
       transition: all 0.4s ease;
     }
-    .media-card:hover {
+    .hot-now-card:hover {
       border-color: #ff00aa;
-      box-shadow: 0 0 35px rgba(255, 0, 170, 0.5);
+      box-shadow: 0 0 40px rgba(255, 0, 170, 0.6);
       transform: translateY(-4px);
+    }
+    
+    #digital-rain {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+      mix-blend-mode: screen;
     }
   </style>
 </head>
@@ -107,6 +119,10 @@
       <p class="text-2xl mb-12 text-white">Operations Terminal<br>Real-time squad intel.</p>
       
       <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
+          <i class="fa-solid fa-house text-5xl"></i>
+          <span class="text-xl">HOME</span>
+        </button>
         <button onclick="showTab(1)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-xl">NEWS</span>
@@ -126,11 +142,6 @@
         <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
           <i class="fa-solid fa-tags text-5xl"></i>
           <span class="text-xl">DEALS</span>
-        </button>
-        <!-- Future placeholders -->
-        <button onclick="showTab(0)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg opacity-60">
-          <i class="fa-solid fa-question text-5xl"></i>
-          <span class="text-xl">FUTURE 1</span>
         </button>
       </div>
     </div>
@@ -213,7 +224,7 @@
       resize();
       window.addEventListener('resize', resize);
 
-      const chars = '01アイウエオカキクKEコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const chars = '01アイウエオカキクケコ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
       const fontSize = 14;
       const columns = canvas.width / fontSize;
       const drops = Array(Math.floor(columns)).fill(1);
@@ -233,7 +244,7 @@
       setInterval(draw, 45);
     }
 
-    // Active Ops
+    // Active Ops (from your bot)
     async function loadHotNow() {
       const container = document.getElementById('hot-now-grid');
       container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">SCANNING ACTIVE OPS...</div>`;

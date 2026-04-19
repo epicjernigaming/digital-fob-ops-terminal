@@ -117,7 +117,7 @@
           <span class="text-xl">DEALS</span>
         </button>
         <button onclick="showTab(5)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
-          <i class="fa-solid fa-images"></i>
+          <i class="fa-solid fa-images text-5xl"></i>
           <span class="text-xl">GALLERY</span>
         </button>
         <button onclick="showTab(6)" class="big-button flex flex-col items-center gap-4 py-10 px-8 text-white font-bold rounded-3xl shadow-lg">
@@ -188,16 +188,16 @@
     <div id="hot-now-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
-  <!-- GALLERY (kept as curated) -->
+  <!-- GALLERY -->
   <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
-      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> GALLERY</h2>
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-images"></i> SQUAD GALLERY</h2>
       <button onclick="loadGallery()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#00ff88] text-black rounded-2xl text-sm font-bold">REFRESH GALLERY</button>
     </div>
     <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
-  <!-- DEALS (kept) -->
+  <!-- DEALS -->
   <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
       <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-tags"></i> CURRENT DISCOUNTS & DEALS</h2>

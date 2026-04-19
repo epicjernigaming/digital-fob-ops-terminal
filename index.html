@@ -7,7 +7,7 @@
   
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#00f0ff">
+  <meta name="theme-color" content="#ff2222">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,118 +16,86 @@
     
     body { 
       font-family: 'VT323', monospace; 
-      background: #0c0c1a;
-      color: #00f0ff;
+      background: #0a0a0f; 
+      color: #00ff88;
       font-size: 1.25rem;
       position: relative;
       overflow-x: hidden;
     }
     
-    /* Enhanced cyberpunk background with subtle noise + vignette */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: 
-        linear-gradient(rgba(255,102,0,0.03) 1px, transparent 1px),
-        radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.85) 100%);
-      background-size: 4px 4px;
-      pointer-events: none;
-      z-index: -1;
-      animation: subtle-flicker 8s infinite alternate;
-    }
-    
-    @keyframes subtle-flicker {
-      0% { opacity: 0.92; }
-      100% { opacity: 0.98; }
-    }
-    
-    .replaced-terminal {
-      background: #111122;
-      box-shadow: 0 0 50px #00f0ff inset, 0 0 90px #ff0088;
-      border: 18px solid #220033;
-      border-image: linear-gradient(#00f0ff, #ff0088) 1;
+    .terminal {
+      background: #111111;
+      box-shadow: 0 0 40px #ff2222 inset, 0 0 60px rgba(255,34,34,0.3);
+      border: 18px solid #222222;
+      border-image: linear-gradient(#ff2222, #00ff88) 1;
       border-radius: 8px;
       position: relative;
       overflow: hidden;
     }
     
-    .neon-cyan { color: #00f0ff; text-shadow: 0 0 12px #00f0ff, 0 0 24px #00f0ff; }
-    .neon-pink { color: #ff0088; text-shadow: 0 0 12px #ff0088, 0 0 24px #ff0088; }
-    .neon-orange { color: #ff6600; text-shadow: 0 0 10px #ff6600; }
+    .neon-red { color: #ff2222; text-shadow: 0 0 6px #ff2222; }
+    .neon-green { color: #00ff88; text-shadow: 0 0 6px #00ff88; }
+    .neon-yellow { color: #ffcc00; text-shadow: 0 0 6px #ffcc00; }
     
     .scanline::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(0,240,255,0.20) 50%);
-      background-size: 100% 3px;
+      background: linear-gradient(transparent 50%, rgba(0,255,136,0.12) 50%);
+      background-size: 100% 4px;
       pointer-events: none;
-      animation: scan 1.6s linear infinite;
+      animation: scan 2.8s linear infinite;
       z-index: 30;
-      opacity: 0.88;
+      opacity: 0.7;
     }
     
     @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
     
-    .glitch {
-      position: relative;
-      animation: glitch 1.8s infinite;
-    }
-    
-    @keyframes glitch {
-      0%, 100% { transform: translate(0); }
-      20% { transform: translate(-3px, 2px); }
-      40% { transform: translate(3px, -2px); }
-      60% { transform: translate(-2px, 3px); }
-      80% { transform: translate(2px, -3px); }
-    }
-    
     .card { 
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-      border: 4px solid #220033; 
-      background: #1a1a2e;
+      border: 4px solid #333333; 
+      background: #1a1a1a;
     }
     .card:hover { 
-      transform: translateY(-6px) scale(1.02); 
-      box-shadow: 0 0 30px #00f0ff; 
-      border-color: #ff0088;
+      transform: translateY(-4px); 
+      box-shadow: 0 0 20px #ff2222; 
+      border-color: #ffcc00;
     }
   </style>
 </head>
-<body class="scanline relative overflow-x-hidden">
+<body class="bg-[#0a0a0f] text-[#00ff88] scanline relative overflow-x-hidden">
 
-  <nav class="bg-black border-b-4 border-[#00f0ff] p-4 flex items-center justify-between sticky top-0 z-50 replaced-terminal">
+  <nav class="bg-black border-b-4 border-[#ff2222] p-4 flex items-center justify-between sticky top-0 z-50 terminal">
     <div class="flex items-center gap-3">
-      <i class="fa-solid fa-tower-observation text-4xl neon-pink"></i>
-      <h1 class="text-3xl font-bold tracking-widest neon-cyan">DIGITAL FOB</h1>
-      <span class="text-xs bg-[#ff0088] text-black px-3 py-1 rounded neon-orange">OPS TERMINAL</span>
+      <i class="fa-solid fa-tower-observation text-4xl neon-red" style="filter: none;"></i>
+      <h1 class="text-3xl font-bold tracking-widest neon-green">DIGITAL FOB</h1>
+      <span class="text-xs bg-[#ff2222] text-white px-3 py-1 rounded">OPS TERMINAL</span>
     </div>
     <div class="flex gap-6 text-sm uppercase">
       <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
       <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
-      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1 glitch"><i class="fa-solid fa-x-twitter text-xl"></i> X FEED</a>
+      <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-x-twitter"></i> X FEED</a>
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
     </div>
   </nav>
 
   <!-- HOME -->
   <div id="tab-0" class="tab-content max-w-6xl mx-auto p-12 text-center">
-    <div class="max-w-2xl mx-auto replaced-terminal p-8 rounded-3xl">
-      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-pink"></i>
-      <h2 class="text-6xl mb-6 neon-cyan glitch">THE DIGITAL FOB</h2>
-      <p class="text-2xl mb-12 text-[#a0a0ff]">Neon-drenched ops intel for the squad.<br>Military sim • Tactical • Cyberpunk feed.</p>
+    <div class="max-w-2xl mx-auto terminal p-8 rounded-3xl">
+      <i class="fa-solid fa-tower-observation text-9xl mb-8 neon-red" style="filter: none;"></i>
+      <h2 class="text-6xl mb-6 neon-green">THE DIGITAL FOB</h2>
+      <p class="text-2xl mb-12 text-[#cccccc]">Military • Simulation • Tactical Hangout<br>Real-time squad intel terminal.</p>
       
       <div class="flex flex-wrap justify-center gap-8">
-        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#00f0ff] hover:bg-[#ff0088] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#ffcc00] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-lg">NEWS</span>
         </button>
-        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#00f0ff] hover:bg-[#ff0088] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#ffcc00] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-x-twitter text-5xl"></i>
           <span class="text-lg">X FEED</span>
         </button>
-        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#00f0ff] hover:bg-[#ff0088] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#ff2222] hover:bg-[#ffcc00] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-calendar text-5xl"></i>
           <span class="text-lg">UPCOMING</span>
         </button>
@@ -138,8 +106,8 @@
   <!-- NEWS -->
   <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl neon-cyan flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
-      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff0088] hover:bg-[#00f0ff] text-black rounded-2xl text-sm font-bold">REFRESH FEED</button>
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#ffcc00] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
     <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </div>
@@ -147,30 +115,127 @@
   <!-- X POSTS -->
   <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-4xl neon-cyan flex items-center gap-4 glitch">
-        <i class="fa-solid fa-x-twitter text-3xl"></i> X / RUMORS & DEV POSTS
-      </h2>
-      <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff0088] hover:bg-[#00f0ff] text-black rounded-2xl text-sm font-bold">REFRESH FEED</button>
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> X / RUMORS &amp; DEV POSTS</h2>
+      <button onclick="refreshXPosts()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#ffcc00] text-black rounded-2xl text-sm font-bold">REFRESH</button>
     </div>
     <div id="x-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00f0ff]/70"></div>
+    <div id="x-last-refreshed" class="text-xs text-center mt-8 text-[#00ff88]/70"></div>
   </div>
 
   <!-- UPCOMING GAMES -->
   <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
     <div class="flex justify-between items-center mb-8">
-      <h2 class="text-4xl neon-cyan flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
-      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff0088] hover:bg-[#00f0ff] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
+      <h2 class="text-4xl neon-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING OPS</h2>
+      <button onclick="refreshUpcoming()" class="px-6 py-3 bg-[#ff2222] hover:bg-[#ffcc00] text-black rounded-2xl text-sm font-bold">REFRESH STEAM</button>
     </div>
     <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
   </div>
 
   <script>
-    // (Your existing script from the previous version - news, X posts, upcoming games - remains unchanged for functionality)
-    // ... [paste your full script block here if you want me to include it again, but since it's long and unchanged, it's the same as last time]
+    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-    // Initialize (same as before)
-    // loadNews(); loadXPosts(); loadUpcoming(); showTab(0);
+    const newsFeeds = [
+      "https://www.pcgamer.com/rss/",
+      "https://www.rockpapershotgun.com/feed",
+      "https://www.ign.com/rss/articles/feed",
+      "https://www.gamespot.com/feeds/news/",
+      "https://www.eurogamer.net/feed",
+      "https://www.polygon.com/rss/index.xml",
+      "https://kotaku.com/rss",
+      "https://www.gamesradar.com/feed",
+      "https://www.thegamer.com/feed",
+      "https://www.dualshockers.com/feed",
+      "https://wccftech.com/feed/",
+      "https://www.dsogaming.com/feed/",
+      "https://steamcommunity.com/games/steam/news/rss"
+    ];
+
+    async function loadNews() {
+      const container = document.getElementById('news-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading live intel...</div>`;
+
+      let allItems = [];
+      for (let url of newsFeeds) {
+        try {
+          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
+          const data = await res.json();
+          if (data.items) {
+            allItems = allItems.concat(data.items.slice(0, 5).map(item => ({
+              title: item.title,
+              date: item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : 'Recent',
+              url: item.link
+            })));
+          }
+        } catch(e) {}
+      }
+
+      container.innerHTML = allItems.map(item => `
+        <a href="${item.url}" target="_blank" class="card block p-6 rounded-3xl border border-[#333333] hover:border-[#ffcc00]">
+          <div class="text-xs neon-red mb-3">${item.date}</div>
+          <h4 class="font-bold leading-tight neon-green">${item.title}</h4>
+        </a>
+      `).join('');
+    }
+
+    function refreshNews() { loadNews(); }
+
+    function loadXPosts() {
+      const container = document.getElementById('x-grid');
+      container.innerHTML = `
+        <a class="twitter-timeline" href="https://twitter.com/wario64" data-theme="dark" data-height="620">Tweets by @wario64</a>
+        <a class="twitter-timeline" href="https://twitter.com/BohemiaInteractive" data-theme="dark" data-height="620">Tweets by BohemiaInteractive</a>
+        <a class="twitter-timeline" href="https://twitter.com/MADFINGER" data-theme="dark" data-height="620">Tweets by MADFINGER</a>
+        <a class="twitter-timeline" href="https://twitter.com/GSCGameWorld" data-theme="dark" data-height="620">Tweets by GSCGameWorld</a>
+        <a class="twitter-timeline" href="https://twitter.com/WarhorseStudios" data-theme="dark" data-height="620">Tweets by WarhorseStudios</a>
+        <a class="twitter-timeline" href="https://twitter.com/TaleWorlds" data-theme="dark" data-height="620">Tweets by TaleWorlds</a>
+        <a class="twitter-timeline" href="https://twitter.com/SaberInteractive" data-theme="dark" data-height="620">Tweets by SaberInteractive</a>
+        <a class="twitter-timeline" href="https://twitter.com/GiantsSoftware" data-theme="dark" data-height="620">Tweets by GiantsSoftware</a>
+        <a class="twitter-timeline" href="https://twitter.com/Astragon" data-theme="dark" data-height="620">Tweets by Astragon</a>
+        <a class="twitter-timeline" href="https://twitter.com/Bethesda" data-theme="dark" data-height="620">Tweets by Bethesda</a>
+        <a class="twitter-timeline" href="https://twitter.com/EA" data-theme="dark" data-height="620">Tweets by EA</a>
+        <a class="twitter-timeline" href="https://twitter.com/OperatorDrewski" data-theme="dark" data-height="620">Tweets by OperatorDrewski</a>
+        <a class="twitter-timeline" href="https://twitter.com/TaskForceGaming" data-theme="dark" data-height="620">Tweets by TaskForceGaming</a>
+        <a class="twitter-timeline" href="https://twitter.com/GrayZoneWarfare" data-theme="dark" data-height="620">Tweets by GrayZoneWarfare</a>
+        <a class="twitter-timeline" href="https://twitter.com/STALKER2" data-theme="dark" data-height="620">Tweets by STALKER2</a>
+        <a class="twitter-timeline" href="https://twitter.com/40kWorldview" data-theme="dark" data-height="620">Tweets by 40kWorldview</a>
+        <a class="twitter-timeline" href="https://twitter.com/Karmakut" data-theme="dark" data-height="620">Tweets by Karmakut</a>
+        <a class="twitter-timeline" href="https://twitter.com/TheGamer" data-theme="dark" data-height="620">Tweets by TheGamer</a>
+        <a class="twitter-timeline" href="https://twitter.com/PCGamer" data-theme="dark" data-height="620">Tweets by PCGamer</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"><\/script>
+      `;
+    }
+
+    function refreshXPosts() { loadXPosts(); }
+
+    function loadUpcoming() {
+      const container = document.getElementById('upcoming-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 neon-green">Loading upcoming ops from Steam...</div>`;
+
+      const upcomingGames = [
+        { name: "Kingdom Come: Deliverance II", url: "https://store.steampowered.com/app/1771300/Kingdom_Come_Deliverance_II/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1771300/capsule_616x353.jpg" },
+        { name: "Gray Zone Warfare", url: "https://store.steampowered.com/app/2475740/Gray_Zone_Warfare/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2475740/capsule_616x353.jpg" },
+        { name: "STALKER 2: Heart of Chornobyl", url: "https://store.steampowered.com/app/1643320/STALKER_2_Heart_of_Chornobyl/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1643320/capsule_616x353.jpg" },
+        { name: "Arma Reforger", url: "https://store.steampowered.com/app/1874880/Arma_Reforger/", img: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1874880/capsule_616x353.jpg" }
+      ];
+
+      container.innerHTML = upcomingGames.map(game => `
+        <a href="${game.url}" target="_blank" class="card block rounded-3xl overflow-hidden border border-[#333333] hover:border-[#ffcc00]">
+          <img src="${game.img}" alt="${game.name}" class="w-full h-40 object-cover">
+          <div class="p-6">
+            <h4 class="font-bold text-lg neon-green">${game.name}</h4>
+            <p class="text-sm text-[#cccccc] mt-2">View on Steam Store →</p>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function refreshUpcoming() { loadUpcoming(); }
+
+    // Initialize
+    loadNews();
+    loadXPosts();
+    loadUpcoming();
+    showTab(0);
   </script>
 </body>
 </html>

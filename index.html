@@ -14,85 +14,71 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
     
-    :root {
-      --phosphor: #aaffaa;
-    }
-    
     body { 
       font-family: 'VT323', monospace; 
       background: #050a05;
-      color: var(--phosphor);
+      color: #99cc99;
     }
     
     .pip-boy {
-      background: #0f1a0f;
-      box-shadow: 0 0 50px var(--phosphor) inset, 0 0 110px var(--phosphor), 0 0 40px rgba(0,0,0,0.98) inset;
-      border: 24px solid #3a4a3a;
-      border-image: linear-gradient(#8fbc8f, #3a4a3a) 1;
-      border-radius: 14px;
+      background: #0c140c;
+      box-shadow: 
+        0 0 35px #6b9b6b inset,
+        0 0 70px #6b9b6b,
+        0 0 25px rgba(0,0,0,0.95) inset;
+      border: 22px solid #2f3f2f;
+      border-image: linear-gradient(#6b9b6b, #2f3f2f) 1;
+      border-radius: 12px;
       position: relative;
       overflow: hidden;
     }
     
-    .crt::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, transparent 62%, rgba(5,10,5,0.88) 100%);
-      z-index: 20;
-      border-radius: 14px;
-    }
-    
     .tactical-green { 
-      color: var(--phosphor); 
-      text-shadow: 0 0 8px var(--phosphor), 0 0 16px var(--phosphor), 0 0 28px #4a5f4a;
+      color: #99cc99; 
+      text-shadow: 0 0 6px #6b9b6b, 0 0 12px #6b9b6b;
     }
-    .alert-red { color: #ff7777; text-shadow: 0 0 12px #c94f4f; }
+    .alert-red { color: #cc6666; text-shadow: 0 0 8px #c94f4f; }
     
     .scanline::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(transparent 50%, rgba(143,188,143,0.35) 50%);
-      background-size: 100% 3px;
+      background: linear-gradient(transparent 50%, rgba(107,155,107,0.22) 50%);
+      background-size: 100% 4px;
       pointer-events: none;
-      animation: scan 2.1s linear infinite;
+      animation: scan 3s linear infinite;
       z-index: 30;
-      opacity: 0.92;
+      opacity: 0.75;
     }
     
     @keyframes scan { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
     
     .card { 
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
-      border: 6px solid #3a4a3a;
-      background: #1a2a1a;
+      border: 4px solid #2f3f2f;
+      background: #141f14;
     }
     .card:hover { 
-      transform: translateY(-6px); 
-      box-shadow: 0 20px 40px rgba(143,188,143,0.7); 
+      transform: translateY(-4px); 
+      box-shadow: 0 12px 25px rgba(107,155,107,0.4); 
     }
   </style>
 </head>
-<body class="bg-[#0a120a] text-[#8fbc8f] scanline relative overflow-x-hidden crt">
+<body class="bg-[#050a05] text-[#99cc99] scanline relative overflow-x-hidden">
 
-  <nav class="bg-black/95 border-b-4 border-[#8fbc8f] p-4 flex items-center justify-between sticky top-0 z-50 pip-boy">
+  <nav class="bg-black/95 border-b-4 border-[#6b9b6b] p-4 flex items-center justify-between sticky top-0 z-50 pip-boy">
     <div class="flex items-center gap-3">
       <i class="fa-solid fa-tower-observation text-4xl alert-red"></i>
       <h1 class="text-3xl font-bold tracking-widest tactical-green">DIGITAL FOB</h1>
       <span class="text-xs bg-[#c94f4f] text-white px-3 py-1 rounded">OPS TERMINAL</span>
     </div>
-    <div class="flex items-center gap-6 text-sm uppercase">
+    <div class="flex gap-6 text-sm uppercase">
       <a onclick="showTab(0)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-home"></i> HOME</a>
       <a onclick="showTab(1)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-newspaper"></i> NEWS</a>
       <a onclick="showTab(2)" class="cursor-pointer hover:text-white flex items-center gap-1">X POSTS</a>
       <a onclick="showTab(3)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-calendar"></i> UPCOMING</a>
       <a onclick="showTab(4)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-suitcase"></i> INVENTORY</a>
       <a onclick="showTab(5)" class="cursor-pointer hover:text-white flex items-center gap-1"><i class="fa-solid fa-radio"></i> RADIO</a>
-      <button onclick="globalRefresh()" class="flex items-center gap-2 px-4 py-1 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">
-        <i class="fa-solid fa-sync"></i> REFRESH ALL
-      </button>
-      <button onclick="toggleTheme()" class="px-3 py-1 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">THEME</button>
     </div>
   </nav>
 
@@ -101,30 +87,25 @@
     <div class="max-w-2xl mx-auto pip-boy p-8 rounded-3xl">
       <i class="fa-solid fa-tower-observation text-9xl mb-8 alert-red"></i>
       <h2 class="text-6xl mb-6 tactical-green">THE DIGITAL FOB</h2>
-      <p class="text-2xl mb-8 text-[#d1d5db]">Squad Ops Terminal</p>
-
-      <!-- Live Discord Widget -->
-      <div class="pip-boy p-4 rounded-3xl mb-10">
-        <iframe src="https://discord.com/widget?id=1113655095687655518&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-      </div>
-
+      <p class="text-2xl mb-12 text-[#d1d5db]">Military • Simulation • RPG • Sports Sim Hangout<br>Real-time ops intel for the squad.</p>
+      
       <div class="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
-        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(1)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-newspaper text-5xl"></i>
           <span class="text-lg">NEWS</span>
         </button>
-        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(2)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <span class="text-lg">X POSTS</span>
         </button>
-        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(3)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-calendar text-5xl"></i>
           <span class="text-lg">UPCOMING</span>
         </button>
-        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(4)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-suitcase text-5xl"></i>
           <span class="text-lg">INVENTORY</span>
         </button>
-        <button onclick="showTab(5)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#8fbc8f] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
+        <button onclick="showTab(5)" class="flex flex-col items-center gap-3 py-8 px-12 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black font-bold rounded-3xl shadow-lg min-w-[180px]">
           <i class="fa-solid fa-radio text-5xl"></i>
           <span class="text-lg">RADIO</span>
         </button>
@@ -132,44 +113,96 @@
     </div>
   </div>
 
-  <!-- NEWS, X POSTS, UPCOMING, INVENTORY, RADIO tabs (your existing content) -->
+  <!-- NEWS -->
+  <div id="tab-1" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl tactical-green flex items-center gap-4"><i class="fa-solid fa-newspaper"></i> LATEST OPS INTEL</h2>
+      <button onclick="refreshNews()" class="px-4 py-2 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- X POSTS -->
+  <div id="tab-2" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-4xl tactical-green flex items-center gap-4"><i class="fa-solid fa-x-twitter"></i> X / RUMORS &amp; DEV POSTS</h2>
+      <button onclick="refreshXPosts()" class="px-4 py-2 bg-[#6b9b6b] hover:bg-[#c94f4f] text-black rounded-2xl text-sm font-bold">REFRESH</button>
+    </div>
+    <div id="x-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+  </div>
+
+  <!-- UPCOMING GAMES -->
+  <div id="tab-3" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-calendar"></i> UPCOMING GAMES</h2>
+    <div id="upcoming-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div id="tab-4" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-suitcase"></i> SQUAD INVENTORY</h2>
+    <div id="inventory-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+  </div>
+
+  <!-- RADIO -->
+  <div id="tab-5" class="tab-content max-w-6xl mx-auto p-8 hidden">
+    <h2 class="text-4xl mb-10 tactical-green flex items-center gap-4"><i class="fa-solid fa-radio"></i> FALLOUT RADIO</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Radio stations from Fallout games -->
+    </div>
+  </div>
 
   <script>
     function showTab(n) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.getElementById('tab-' + n).classList.remove('hidden');
-      localStorage.setItem('lastTab', n);
     }
 
-    function globalRefresh() {
-      // Refresh all dynamic tabs
-      refreshNews();
-      refreshXPosts();
-      loadUpcoming();
+    // NEWS
+    const RSS_PROXY = "https://api.rss2json.com/v1/api.json?rss_url=";
+    async function loadNews() {
+      const container = document.getElementById('news-grid');
+      container.innerHTML = `<div class="col-span-full text-center py-12 tactical-green">Loading live intel...</div>`;
+      const feeds = ["https://arma3.com/feed","https://reforger.armaplatform.com/feed","https://www.grayzonewarfare.com/feed","https://www.stalker2.com/news/feed","https://www.rockpapershotgun.com/feed","https://www.pcgamer.com/rss/","https://www.ign.com/rss/articles/feed"];
+      let all = [];
+      for (let url of feeds) {
+        try {
+          const res = await fetch(RSS_PROXY + encodeURIComponent(url));
+          const data = await res.json();
+          if (data.items) all = all.concat(data.items.slice(0,8).map(i => ({title:i.title, date:new Date(i.pubDate).toLocaleDateString('en-US',{month:'short',day:'numeric'}), url:i.link})));
+        } catch(e){}
+      }
+      container.innerHTML = all.map(item => `
+        <a href="${item.url}" target="_blank" class="card block bg-[#1f2a1f] p-5 rounded-3xl border border-[#8fbc8f] hover:border-[#c94f4f]">
+          <div class="flex justify-between text-[10px] alert-red mb-2"><span>${item.date}</span></div>
+          <h4 class="font-bold leading-tight text-sm">${item.title}</h4>
+        </a>
+      `).join('');
     }
+    function refreshNews() { loadNews(); }
 
-    function toggleTheme() {
-      document.body.classList.toggle('dark-theme');
-      // You can expand this with more themes later
+    // X POSTS
+    const xPosts = [
+      {user:"wario64", text:"Major gaming discounts this week - check Steam and Epic", url:"https://twitter.com/wario64"},
+      {user:"BohemiaInteractive", text:"Arma Reforger 1.2 is live with new Soviet assets!", url:"https://twitter.com/BohemiaInteractive"},
+      {user:"MADFINGER", text:"Gray Zone Warfare Patch 0.4.1 is now available", url:"https://twitter.com/MADFINGER"},
+      {user:"GSCGameWorld", text:"STALKER 2 Sealed Truth update is out", url:"https://twitter.com/GSCGameWorld"},
+      {user:"WarhorseStudios", text:"Kingdom Come Deliverance II next-gen update live", url:"https://twitter.com/WarhorseStudios"}
+    ];
+    function loadXPosts() {
+      const container = document.getElementById('x-grid');
+      container.innerHTML = xPosts.map(p => `
+        <a href="${p.url}" target="_blank" class="card block bg-[#1f2a1f] p-6 rounded-3xl border border-[#8fbc8f] hover:border-[#c94f4f]">
+          <div class="flex items-center gap-3 mb-3"><span class="font-bold">@${p.user}</span></div>
+          <p class="text-sm">${p.text}</p>
+        </a>
+      `).join('');
     }
-
-    // Share to Discord helper
-    function shareToDiscord(title, url) {
-      const text = `**${title}**\n${url}\n#digital-fob-ops`;
-      navigator.clipboard.writeText(text).then(() => alert("✅ Copied to clipboard – paste in Discord!"));
-    }
-
-    // Remember last tab
-    const lastTab = localStorage.getItem('lastTab') || 0;
-    showTab(parseInt(lastTab));
-
-    // Your existing loadNews, loadXPosts, loadUpcoming, renderInventory functions go here
+    function refreshXPosts() { loadXPosts(); }
 
     // Initialize
     loadNews();
     loadXPosts();
-    loadUpcoming();
-    renderInventory();
+    showTab(0);
   </script>
 </body>
 </html>
